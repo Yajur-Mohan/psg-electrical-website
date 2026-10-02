@@ -54,18 +54,20 @@ void main(){
 
   // arcs from the node to the pointer
   float e=0.;
-  e+=arc(uv,node,target,1.3,.0016);
-  e+=arc(uv,node,target+vec2(.06,-.04),4.7,.0011);
-  e+=arc(uv,node,target+vec2(-.05,.05),8.1,.0009);
+  e+=arc(uv,node,target,1.3,.0048);
+  e+=arc(uv,node,target+vec2(.06,-.04),4.7,.003);
+  e+=arc(uv,node,target+vec2(-.05,.05),8.1,.0024);
   // ambient arcs to the edges
-  e+=arc(uv,node,node+vec2(.5,.6),2.2,.0008);
-  e+=arc(uv,node,node+vec2(.4,-.7),6.6,.0007);
+  e+=arc(uv,node,node+vec2(.5,.6),2.2,.0022);
+  e+=arc(uv,node,node+vec2(.4,-.7),6.6,.002);
+  e+=arc(uv,node,node+vec2(-.3,.75),9.4,.0016);
   e*=charge;
 
   vec3 bolt=mix(vec3(.36,.55,1.),vec3(.75,.45,1.),.5+.5*sin(t*.7));
   col+=bolt*e;
+  col+=vec3(.9,.95,1.)*smoothstep(.8,2.5,e); // white-hot core
   col+=vec3(.85,.9,1.)*smoothstep(.02,0.,length(uv-node))*charge;
-  col+=bolt*.02/(length(uv-node)+.02)*charge;
+  col+=bolt*.05/(length(uv-node)+.03)*charge;
 
   // vignette
   col*=1.-.55*smoothstep(.4,1.4,length(uv*vec2(.8,1.)));
@@ -172,7 +174,9 @@ export default function LightningField({ paused = false }: { paused?: boolean })
       ro.disconnect();
       io.disconnect();
       window.removeEventListener("pointermove", move);
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      // Free GPU resources but keep the context: React may remount on the same canvas
+      gl.deleteBuffer(buf);
+      gl.deleteProgram(prog);
     };
   }, []);
 
