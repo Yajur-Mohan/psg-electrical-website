@@ -1,26 +1,114 @@
 @import "tailwindcss";
+@source "../components/originkit";
 
+/* PSG Electrical brand tokens, carried over from the team prototype */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #171a20;
+  --bg-2: #1b1f26;
+  --card: #222730;
+  --line: #343b47;
+  --text: #f5f7fb;
+  --muted: #b3bac7;
+  --blue: #2d6cff;
+  --blue-bright: #5b8cff;
+  --purple: #7b45f5;
+  --magenta: #d736e8;
+  --solar: #9bd454;
+  --success: #35d39a;
+  --danger: #ff8094;
+  --max: 1180px;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-brand: var(--blue);
+  --color-brand-bright: var(--blue-bright);
+  --color-purple: var(--purple);
+  --color-magenta: var(--magenta);
+  --color-solar: var(--solar);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-inter), "Segoe UI", Arial, sans-serif;
+  line-height: 1.55;
+}
+
+/* Visible focus on every interactive element (WCAG 2.4.7 / 2.4.11) */
+:focus-visible {
+  outline: 3px solid var(--blue-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.container-site {
+  width: min(var(--max), calc(100% - 32px));
+  margin-inline: auto;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--blue-bright), #a07bff, #e46cf2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-gradient-brand {
+  background: linear-gradient(90deg, var(--blue), var(--purple), var(--magenta));
+}
+
+.eyebrow {
+  display: inline-block;
+  border: 1px solid rgba(91, 140, 255, 0.65);
+  color: #8fb0ff;
+  background: rgba(45, 108, 255, 0.08);
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.grid-lines {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Reduced motion: switch off every animation and transition site-wide */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
