@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 // Mobile-only sticky CTA (MASTER-IMPLEMENTATION §1.1). Hidden where the flow is already on screen.
 export default function StickyQuoteButton() {
   const pathname = usePathname();
-  if (pathname === "/quote" || pathname.startsWith("/admin")) return null;
+  if (pathname === "/quote" || pathname === "/contact" || pathname.startsWith("/admin")) return null;
   return (
     <Link
       href="/quote"
