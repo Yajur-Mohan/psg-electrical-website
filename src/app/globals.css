@@ -45,6 +45,8 @@ body {
   color: var(--text);
   font-family: var(--font-inter), "Segoe UI", Arial, sans-serif;
   line-height: 1.55;
+  /* Effect canvases bleed past their boxes for glow; never allow sideways scroll */
+  overflow-x: clip;
 }
 
 /* Visible focus on every interactive element (WCAG 2.4.7 / 2.4.11) */
