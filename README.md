@@ -36,6 +36,7 @@ Staff dashboard: <http://localhost:3000/admin> (the admin account is created fro
 | `npm run build` / `npm start` | Production build and server |
 | `npm run lint` | ESLint (Next.js + React hooks rules) |
 | `npm run typecheck` | Generates route types and runs `tsc` |
+| `npm test` | Chatbot intent-matching unit tests (Node's built-in test runner) |
 | `npm run smoke` | End-to-end checks of every page and API route against a running server |
 
 ## What's in it
@@ -74,17 +75,48 @@ Accessibility statement, 404, and a staff-only enquiries dashboard.
 | Before/after spotlight reveal | Home, Projects | Custom, with keyboard slider |
 | Section reveals | Most pages | Motion `whileInView` |
 
+## Cinematic layer (v2)
+
+The site is directed like a short film, with one motion language across every page.
+
+| Moment | What happens | Built with |
+|---|---|---|
+| Intro | "Powering up" preloader: bolt draws, meter charges to 100%, screen splits open (once per session) | GSAP |
+| Page changes | Three brand panels sweep over the screen, name the next page, then sweep away | GSAP + Next router |
+| Home hero | Hand-written **WebGL lightning shader**: arcs leap from a power node to your cursor; masked headline reveal, scrambled eyebrow, parallax, scroll-out | WebGL (GLSL), GSAP SplitText + ScrambleText |
+| Inner heroes | Masked line reveals, drifting glow and a giant outlined watermark that slides as you scroll | GSAP |
+| Statement | Words "switch on" one at a time as you scroll | ScrollTrigger scrub |
+| Services | Pinned horizontal reel; cards tilt into frame | ScrollTrigger containerAnimation |
+| Marquee | Speed and skew react to scroll velocity | Lenis velocity |
+| Numbers | Counters charge up on view | GSAP |
+| Closing scene | Title card scales in over the Originkit particle field | ScrollTrigger + Originkit |
+| Everywhere | Lenis smooth scroll, scroll progress bar, cursor glow + magnetic buttons, film grain | Lenis, GSAP quickTo |
+
+All of it switches off under `prefers-reduced-motion`, and none of it touches the quote form.
+
+## Sparky: rule-based assistant
+
+A floating ⚡ button opens **Sparky**, a rule-based chatbot for basic electrical and solar questions
+(`src/lib/chatbot/`). There's no AI and no server call: questions are scored against ~40 hand-written intents
+(keywords plus exact phrases), with **safety intents weighted highest**, so "burning smell" or "got shocked"
+always gets switch-off-and-call advice first. Covers tripping breakers, earth leakage, no power, prepaid meters,
+CoCs, DB boards, geysers, surge protection, EV chargers, solar types, inverter sizing, batteries, load shedding,
+payback, SSEG registration, kW vs kWh, and company info. Answers link to the quote form or contact page.
+
 ## Project structure
 
 ```
 src/
   app/                 routes (pages + /api route handlers)
   components/
-    effects/           smooth scroll, reveals, hero, before/after, storyline
+    cinematic/         preloader, page curtain, WebGL lightning, heroes, reel, marquee
+    chatbot/           Sparky chat panel
+    effects/           smooth scroll, reveals, before/after, storyline
     originkit/ui/      components installed with `npx originkit add`
     quote/ contact/    lead capture
     layout/ ui/        header, footer, shared blocks
   lib/
+    chatbot/           knowledge base, scoring engine and tests
     db/                SQLite connection + repositories
     site.ts            all business copy in one place
     validation.ts      zod schemas
