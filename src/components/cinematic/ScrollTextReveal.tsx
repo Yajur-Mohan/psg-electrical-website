@@ -17,9 +17,10 @@ export default function ScrollTextReveal({ text, kicker }: { text: string; kicke
     const ctx = gsap.context(() => {
       gsap.fromTo(
         words,
-        { opacity: 0.12, textShadow: "0 0 0 rgba(91,140,255,0)" },
+        // Start at a dim grey that still passes 4.5:1, then "switch on" to white
+        { color: "#808896", textShadow: "0 0 0 rgba(91,140,255,0)" },
         {
-          opacity: 1,
+          color: "#ffffff",
           textShadow: "0 0 24px rgba(91,140,255,.45)",
           stagger: 0.1,
           ease: "none",
