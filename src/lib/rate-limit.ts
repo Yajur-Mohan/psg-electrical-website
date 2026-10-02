@@ -5,7 +5,9 @@ import "server-only";
 
 const hits = new Map<string, { count: number; resetAt: number }>();
 
-export function rateLimit(key: string, limit = 5, windowMs = 10 * 60 * 1000): boolean {
+const DEFAULT_LIMIT = process.env.NODE_ENV === "production" ? 5 : 100;
+
+export function rateLimit(key: string, limit = DEFAULT_LIMIT, windowMs = 10 * 60 * 1000): boolean {
   const now = Date.now();
   const entry = hits.get(key);
   if (!entry || entry.resetAt < now) {
