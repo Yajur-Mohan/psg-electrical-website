@@ -3,7 +3,7 @@ import { business } from "@/lib/site";
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-[#272c34] bg-[#14171c] pt-10 pb-6 text-sm">
+    <footer className="border-t border-[#272c34] bg-[#14171c] pt-10 pb-24 text-sm sm:pb-6">
       <div className="container-site grid gap-8 md:grid-cols-[2fr_1fr_1fr_1fr]">
         <div>
           <p className="font-extrabold">⚡ {business.name.toUpperCase()}</p>
