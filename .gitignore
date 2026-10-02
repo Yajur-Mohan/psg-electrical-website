@@ -40,3 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .originkit/
+
+# local database
+/data/
+
+# allow the env template
+!.env.example
