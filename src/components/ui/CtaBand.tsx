@@ -1,0 +1,22 @@
+import Link from "next/link";
+
+export default function CtaBand() {
+  return (
+    <section className="bg-[linear-gradient(90deg,#1450d8,#2e6bff_60%,#3549c8)] py-9">
+      <div className="container-site flex flex-col items-start justify-between gap-5 md:flex-row md:items-center">
+        <div>
+          <h2 className="text-2xl font-extrabold">READY TO POWER YOUR NEXT PROJECT?</h2>
+          <p className="text-white/90">Three quick questions and we&apos;ll send you a quote.</p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Link href="/quote" className="inline-flex min-h-11 items-center rounded bg-white px-5 font-extrabold text-[#1239a6]">
+            GET A QUOTE
+          </Link>
+          <Link href="/contact" className="inline-flex min-h-11 items-center rounded border border-white/70 px-5 font-extrabold">
+            CONTACT US
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
