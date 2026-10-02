@@ -247,3 +247,20 @@ html.intro-lock body {
     display: none;
   }
 }
+
+/* Hero scroll cue: a pulse travelling down a line */
+.scroll-cue {
+  position: relative;
+  overflow: hidden;
+}
+.scroll-cue::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  animation: scroll-cue 1.6s cubic-bezier(0.7, 0, 0.3, 1) infinite;
+}
+@keyframes scroll-cue {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
