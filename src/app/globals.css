@@ -112,3 +112,85 @@ html.lenis body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Quote flow card: light card on the dark site, so it is the clearest CTA */
+.quote-card {
+  position: relative;
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 20px;
+  padding: clamp(20px, 4vw, 40px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+.quote-card :focus-visible {
+  outline-color: #1d4fd8;
+}
+.quote-option {
+  min-height: 56px;
+  padding: 14px 20px;
+  border-radius: 999px;
+  border: 2px solid #cbd5e1;
+  background: #f8fafc;
+  color: #0f172a;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+.quote-option:hover {
+  border-color: var(--blue);
+  transform: translateY(-1px);
+}
+.quote-option.is-selected {
+  background: #0f172a;
+  border-color: #0f172a;
+  color: #fff;
+}
+.quote-input {
+  margin-top: 6px;
+  width: 100%;
+  min-height: 48px;
+  border: 2px solid #94a3b8;
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: #0f172a;
+  background: #fff;
+}
+.quote-input[aria-invalid="true"] {
+  border-color: #b4233a;
+}
+.quote-submit,
+.quote-secondary {
+  min-height: 48px;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-weight: 800;
+  color: #fff;
+  background: #1d4fd8;
+}
+.quote-submit:disabled {
+  opacity: 0.7;
+}
+.quote-secondary {
+  min-height: 44px;
+  background: #0f172a;
+}
+.quote-back {
+  margin-top: 20px;
+  min-height: 44px;
+  padding: 8px 14px;
+  font-weight: 700;
+  color: #334155;
+  text-decoration: underline;
+}
+.quote-step {
+  animation: quote-in 0.18s ease-out;
+}
+@keyframes quote-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
