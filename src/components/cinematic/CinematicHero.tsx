@@ -32,11 +32,11 @@ export default function CinematicHero() {
     gsap.set(q("[data-headline]"), { opacity: 0 });
 
     const stop = whenStageReady(() => {
-      split = SplitText.create(q("[data-headline]")[0], { type: "lines,chars", mask: "lines" });
+      split = SplitText.create(q("[data-headline]")[0], { type: "lines", mask: "lines" });
       gsap.set(q("[data-headline]"), { opacity: 1 });
       gsap
         .timeline()
-        .from(split.chars, { yPercent: 110, rotate: 8, duration: 0.9, ease: "power4.out", stagger: 0.025 })
+        .from(split.lines, { yPercent: 115, rotate: 3, duration: 1.1, ease: "power4.out", stagger: 0.14 })
         .to(q("[data-eyebrow]"), { duration: 1, scrambleText: { text: "{original}", chars: "⚡01ΩVA", speed: 0.6 } }, 0)
         .to(q("[data-fade]"), { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.1 }, 0.45);
     });
