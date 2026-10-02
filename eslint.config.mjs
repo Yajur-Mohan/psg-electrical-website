@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendor components copied in by `npx originkit add`
+    "src/components/originkit/**",
   ]),
 ]);
 
