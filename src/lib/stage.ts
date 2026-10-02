@@ -2,6 +2,11 @@
 // so hero reveals start exactly when the screen uncovers.
 
 export const STAGE_READY = "psg:stage-ready";
+export const INTRO_KEY = "psg-intro-seen";
+
+// Inline <head> script: decides before first paint whether the intro plays, so
+// returning visitors (and reduced-motion users) never see a flash of it.
+export const introScript = `try{var m=matchMedia('(prefers-reduced-motion: reduce)').matches;document.documentElement.dataset.intro=(m||sessionStorage.getItem('${INTRO_KEY}'))?'done':'play'}catch(e){document.documentElement.dataset.intro='done'}`;
 
 export function isStageBusy() {
   const d = document.documentElement.dataset;
