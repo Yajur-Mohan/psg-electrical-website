@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
@@ -34,11 +35,11 @@ export const viewport: Viewport = { themeColor: "#171a20" };
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en-ZA" className={`${inter.variable} antialiased`} suppressHydrationWarning>
-      <head>
-        {/* Runs before paint: decides whether the intro plays this session */}
-        <script dangerouslySetInnerHTML={{ __html: introScript }} />
-      </head>
       <body className="flex min-h-screen flex-col">
+        {/* Runs before hydration: decides whether the intro plays this session */}
+        <Script id="intro-gate" strategy="beforeInteractive">
+          {introScript}
+        </Script>
         <Preloader />
         <a
           href="#main"
