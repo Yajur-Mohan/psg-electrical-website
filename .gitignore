@@ -46,3 +46,6 @@ next-env.d.ts
 
 # allow the env template
 !.env.example
+
+# local tooling
+/.claude/
