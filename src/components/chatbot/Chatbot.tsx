@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FormEvent, useEffect, useId, useRef, useState } from "react";
 import { reply, type BotReply } from "@/lib/chatbot/engine";
 import { STARTERS } from "@/lib/chatbot/knowledge";
@@ -27,6 +28,14 @@ export default function Chatbot() {
   const field = useRef<HTMLInputElement>(null);
   const log = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
+  const pathname = usePathname();
+
+  // Close after navigating via a link in an answer (adjust state during render)
+  const [lastPath, setLastPath] = useState(pathname);
+  if (lastPath !== pathname) {
+    setLastPath(pathname);
+    setOpen(false);
+  }
 
   useEffect(() => {
     if (open) field.current?.focus();
