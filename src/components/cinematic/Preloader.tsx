@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { announceStageReady } from "@/lib/stage";
 
 export const INTRO_KEY = "psg-intro-seen";
 
@@ -22,14 +23,7 @@ export default function Preloader() {
     document.documentElement.classList.add("intro-lock");
 
     const tl = gsap.timeline({
-      onComplete: () => {
-        document.documentElement.dataset.intro = "done";
-        document.documentElement.classList.remove("intro-lock");
-        try {
-          sessionStorage.setItem(INTRO_KEY, "1");
-        } catch {}
-        window.dispatchEvent(new Event("psg:intro-done"));
-      },
+      onComplete: () => document.documentElement.classList.remove("intro-lock"),
     });
     tl.fromTo(el.querySelector("[data-bolt]"), { strokeDashoffset: 120 }, { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut" })
       .to(state, {
@@ -44,7 +38,15 @@ export default function Preloader() {
       .to(el.querySelector("[data-flash]"), { opacity: 1, duration: 0.08, yoyo: true, repeat: 3 }, 1.15)
       .to(el.querySelector("[data-content]"), { opacity: 0, scale: 1.4, duration: 0.4, ease: "power2.in" }, 1.4)
       .to(el.querySelector("[data-top]"), { yPercent: -100, duration: 0.8, ease: "power4.inOut" }, 1.55)
-      .to(el.querySelector("[data-bottom]"), { yPercent: 100, duration: 0.8, ease: "power4.inOut" }, 1.55);
+      .to(el.querySelector("[data-bottom]"), { yPercent: 100, duration: 0.8, ease: "power4.inOut" }, 1.55)
+      // Let the hero start revealing while the screen is still splitting open
+      .call(() => {
+        document.documentElement.dataset.intro = "done";
+        try {
+          sessionStorage.setItem(INTRO_KEY, "1");
+        } catch {}
+        announceStageReady();
+      }, [], 1.75);
 
     return () => {
       tl.kill();

@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { gsap } from "gsap";
 import { nav } from "@/lib/site";
+import { announceStageReady } from "@/lib/stage";
 
 const LABELS: Record<string, string> = {
   ...Object.fromEntries(nav.map((n) => [n.href, n.label])),
@@ -46,6 +47,7 @@ export default function PageTransition() {
 
       const panels = root.current!.querySelectorAll("[data-panel]");
       if (label.current) label.current.textContent = labelFor(url.pathname);
+      document.documentElement.dataset.transitioning = "true";
       gsap.set(root.current, { visibility: "visible" });
       gsap
         .timeline({ onComplete: () => router.push(url.pathname + url.search + url.hash) })
@@ -75,7 +77,11 @@ export default function PageTransition() {
         },
       })
       .to(label.current, { opacity: 0, y: -30, duration: 0.25 })
-      .to(panels, { yPercent: -100, duration: 0.6, ease: "power4.inOut", stagger: { each: 0.07, from: "end" } }, "-=0.1");
+      .to(panels, { yPercent: -100, duration: 0.6, ease: "power4.inOut", stagger: { each: 0.07, from: "end" } }, "-=0.1")
+      .call(() => {
+        document.documentElement.dataset.transitioning = "false";
+        announceStageReady();
+      }, [], "-=0.45");
   }, [pathname]);
 
   return (
