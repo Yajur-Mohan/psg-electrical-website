@@ -5,6 +5,12 @@ import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
 import StickyQuoteButton from "@/components/layout/StickyQuoteButton";
 import SmoothScroll from "@/components/effects/SmoothScroll";
+import Preloader from "@/components/cinematic/Preloader";
+import { introScript } from "@/lib/stage";
+import PageTransition from "@/components/cinematic/PageTransition";
+import CursorFX from "@/components/cinematic/CursorFX";
+import ScrollProgress from "@/components/cinematic/ScrollProgress";
+import Chatbot from "@/components/chatbot/Chatbot";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
@@ -27,8 +33,13 @@ export const viewport: Viewport = { themeColor: "#171a20" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-ZA" className={`${inter.variable} antialiased`}>
+    <html lang="en-ZA" className={`${inter.variable} antialiased`} suppressHydrationWarning>
+      <head>
+        {/* Runs before paint: decides whether the intro plays this session */}
+        <script dangerouslySetInnerHTML={{ __html: introScript }} />
+      </head>
       <body className="flex min-h-screen flex-col">
+        <Preloader />
         <a
           href="#main"
           className="sr-only z-[100] rounded bg-white px-4 py-3 font-bold text-black focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
@@ -36,12 +47,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <SmoothScroll />
+        <ScrollProgress />
         <SiteHeader />
         <main id="main" tabIndex={-1} className="flex-1 outline-none">
           {children}
         </main>
         <SiteFooter />
         <StickyQuoteButton />
+        <Chatbot />
+        <PageTransition />
+        <CursorFX />
+        <div aria-hidden="true" className="film-grain" />
       </body>
     </html>
   );
