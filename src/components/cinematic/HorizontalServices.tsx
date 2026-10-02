@@ -51,7 +51,9 @@ export default function HorizontalServices() {
     return () => mm.revert();
   }, [reduced]);
 
+  // Outer div is what React adds/removes; GSAP's pin-spacer lives inside it
   return (
+    <div>
     <section ref={section} className="relative overflow-hidden py-20 lg:flex lg:min-h-screen lg:flex-col lg:justify-center" aria-labelledby="reel-h">
       <div className="container-site mb-10 flex flex-wrap items-end justify-between gap-4">
         <div>
@@ -91,5 +93,6 @@ export default function HorizontalServices() {
         ))}
       </ul>
     </section>
+    </div>
   );
 }

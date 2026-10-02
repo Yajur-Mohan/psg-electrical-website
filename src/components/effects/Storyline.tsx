@@ -50,7 +50,9 @@ export default function Storyline({ steps }: { steps: StoryStep[] }) {
     };
   }, [reduced, steps.length]);
 
+  // Outer div is what React adds/removes; GSAP's pin-spacer lives inside it
   return (
+    <div>
     <div ref={section} className="relative flex min-h-screen items-center bg-bg-2 py-16">
       <div className="container-site grid gap-10 md:grid-cols-[1fr_1.2fr]">
         <div>
@@ -77,6 +79,7 @@ export default function Storyline({ steps }: { steps: StoryStep[] }) {
           </ol>
         </div>
       </div>
+    </div>
     </div>
   );
 }
