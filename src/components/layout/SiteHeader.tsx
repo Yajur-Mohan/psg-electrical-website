@@ -2,15 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { nav } from "@/lib/site";
 
 export default function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  // Close the mobile menu after navigating
-  useEffect(() => setOpen(false), [pathname]);
+  // Close the mobile menu after navigating (adjust state during render, no effect)
+  const [lastPath, setLastPath] = useState(pathname);
+  if (lastPath !== pathname) {
+    setLastPath(pathname);
+    setOpen(false);
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#252a33] bg-bg/95 backdrop-blur">
