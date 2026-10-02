@@ -31,7 +31,7 @@ export const quoteRepository = {
 
   addNote(id: number, note: string): boolean {
     const res = getDb()
-      .prepare(`UPDATE quote_request SET note = ? WHERE quote_request_id = ? AND note = ''`)
+      .prepare(`UPDATE quote_request SET note = ? WHERE quote_request_id = ? AND note = '' AND created_at > datetime('now', '-30 minutes')`)
       .run(note, id);
     return res.changes > 0;
   },
