@@ -9,7 +9,7 @@
   --line: #343b47;
   --text: #f5f7fb;
   --muted: #b3bac7;
-  --blue: #2d6cff;
+  --blue: #2463f0; /* darkened from prototype #2d6cff to pass 4.5:1 with white text */
   --blue-bright: #5b8cff;
   --purple: #7b45f5;
   --magenta: #d736e8;

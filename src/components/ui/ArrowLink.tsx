@@ -8,11 +8,11 @@ export default function ArrowLink({ href, label }: { href: string; label: string
     <ArrowRevealButton
       label={label}
       link={href}
-      colors={{ fill: "#2d6cff", textColor: "#ffffff" }}
+      colors={{ fill: "#2463f0", textColor: "#ffffff" }}
       border={{ borderColor: "#5b8cff", borderStyle: "solid", borderWidth: 2 }}
       padding="14px 48px 14px 22px"
       font={{ fontFamily: "var(--font-inter)", fontWeight: 800, fontSize: 14, letterSpacing: "0.04em" }}
-      icon={{ type: "symbol", symbol: "→", side: "left", size: 18, padding: 10, rounded: 100, background: "#ffffff", color: "#2d6cff" }}
+      icon={{ type: "symbol", symbol: "→", side: "left", size: 18, padding: 10, rounded: 100, background: "#ffffff", color: "#2463f0" }}
       gap={16}
       newTab={false}
     />
