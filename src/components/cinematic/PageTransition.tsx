@@ -15,6 +15,12 @@ const LABELS: Record<string, string> = {
   "/admin": "Staff",
 };
 
+// Jump to the top instantly, both natively and inside Lenis
+function resetScroll() {
+  window.__lenis?.scrollTo(0, { immediate: true, force: true });
+  window.scrollTo(0, 0);
+}
+
 const labelFor = (path: string) => LABELS[path] ?? LABELS["/" + path.split("/")[1]] ?? "PSG Electrical";
 
 // Cinematic curtain between pages: three brand panels sweep up and cover the
@@ -40,7 +46,9 @@ export default function PageTransition() {
       if (url.pathname === location.pathname) return; // same page or hash link: let Lenis handle it
       if (url.pathname.startsWith("/api")) return;
 
+      // Capture phase on window runs before Next's <Link> handler, so we own the navigation
       e.preventDefault();
+      e.stopPropagation();
       if (busy.current) return;
       busy.current = true;
       pending.current = true;
@@ -50,21 +58,26 @@ export default function PageTransition() {
       document.documentElement.dataset.transitioning = "true";
       gsap.set(root.current, { visibility: "visible" });
       gsap
-        .timeline({ onComplete: () => router.push(url.pathname + url.search + url.hash) })
+        .timeline({
+          // Screen is fully covered: reset scroll now so the new page starts at the top
+          onComplete: () => {
+            resetScroll();
+            router.push(url.pathname + url.search + url.hash, { scroll: false });
+          },
+        })
         .fromTo(panels, { yPercent: 100 }, { yPercent: 0, duration: 0.55, ease: "power4.inOut", stagger: 0.07 })
         .fromTo(label.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3 }, "-=0.25");
     }
 
-    document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+    window.addEventListener("click", onClick, true);
+    return () => window.removeEventListener("click", onClick, true);
   }, [router]);
 
   // Route has changed underneath the curtain: reset scroll and reveal.
   useEffect(() => {
     if (!pending.current) return;
     pending.current = false;
-    if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true, force: true });
-    else window.scrollTo(0, 0);
+    resetScroll();
 
     const panels = root.current!.querySelectorAll("[data-panel]");
     gsap
