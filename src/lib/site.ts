@@ -103,10 +103,20 @@ export const projects: { tag: string; title: string; text: string; category: Pro
   { tag: "Fault diagnosis", title: "Industrial Electrical Fault Investigation", text: "Structured troubleshooting for a complex intermittent fault.", category: "Industrial" },
 ];
 
-export const team = [
-  { initials: "RG", name: "Ricky Govender", role: "Founder / Electrical Specialist", text: "Leadership grounded in more than three decades of electrical industry experience.", tags: ["Electrical", "Leadership"] },
-  { initials: "KG", name: "Keoran Govender", role: "Trite Solar Founder", text: "Solar and backup-power leadership focused on practical renewable-energy systems.", tags: ["Solar", "Hybrid systems"] },
-  { initials: "PSG", name: "PSG Project Team", role: "Technical & Customer Support", text: "Installations, maintenance, site support and customer coordination across projects.", tags: ["Projects", "Support"] },
+export type TeamMember = {
+  initials: string;
+  name: string;
+  role: string;
+  text: string;
+  tags: string[];
+  brand: "psg" | "trite";
+  photo?: string;
+};
+
+export const team: TeamMember[] = [
+  { initials: "RG", name: "Ricky Govender", role: "Founder / Electrical Specialist", text: "Leadership grounded in more than three decades of electrical industry experience.", tags: ["Electrical", "Leadership"], brand: "psg", photo: "/team/ricky-govender.webp" },
+  { initials: "KG", name: "Keoran Govender", role: "Trite Solar Founder", text: "Solar and backup-power leadership focused on practical renewable-energy systems.", tags: ["Solar", "Hybrid systems"], brand: "trite", photo: "/team/keoran-govender.webp" },
+  { initials: "PSG", name: "PSG Project Team", role: "Technical & Customer Support", text: "Installations, maintenance, site support and customer coordination across projects.", tags: ["Projects", "Support"], brand: "psg" },
 ];
 
 export const reasons = [
