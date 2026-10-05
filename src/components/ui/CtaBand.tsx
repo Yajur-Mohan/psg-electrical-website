@@ -1,5 +1,6 @@
 import Link from "next/link";
 import WhatsAppButton from "@/components/whatsapp/WhatsAppButton";
+import FillLink from "./FillLink";
 
 export default function CtaBand() {
   return (
@@ -10,9 +11,7 @@ export default function CtaBand() {
           <p className="text-white/90">Three quick questions, or WhatsApp us and chat to an electrician.</p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <Link href="/quote" className="inline-flex min-h-11 items-center rounded bg-white px-5 font-extrabold text-[#1239a6]">
-            GET A QUOTE
-          </Link>
+          <FillLink href="/quote" label="GET A QUOTE" />
           <WhatsAppButton message="Hi PSG Electrical, I'd like a quote for a job." label="WHATSAPP US" />
           <Link href="/contact" className="inline-flex min-h-11 items-center rounded border border-white/70 px-5 font-extrabold">
             CONTACT US
