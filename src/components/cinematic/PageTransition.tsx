@@ -57,14 +57,20 @@ export default function PageTransition() {
       if (label.current) label.current.textContent = labelFor(url.pathname);
       document.documentElement.dataset.transitioning = "true";
       gsap.set(root.current, { visibility: "visible" });
+
+      // Navigate once, either when the curtain closes or after a timeout in case
+      // animation frames are paused (background tab), so a click never gets stuck
+      let navigated = false;
+      const navigate = () => {
+        if (navigated) return;
+        navigated = true;
+        resetScroll();
+        router.push(url.pathname + url.search + url.hash, { scroll: false });
+      };
+      window.setTimeout(navigate, 1200);
+
       gsap
-        .timeline({
-          // Screen is fully covered: reset scroll now so the new page starts at the top
-          onComplete: () => {
-            resetScroll();
-            router.push(url.pathname + url.search + url.hash, { scroll: false });
-          },
-        })
+        .timeline({ onComplete: navigate })
         .fromTo(panels, { yPercent: 100 }, { yPercent: 0, duration: 0.55, ease: "power4.inOut", stagger: 0.07 })
         .fromTo(label.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3 }, "-=0.25");
     }
