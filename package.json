@@ -16,7 +16,13 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
+    "@splinetool/react-spline": "^4.1.0",
+    "@splinetool/runtime": "^2.0.66",
+    "@theatre/core": "^0.7.2",
     "bcryptjs": "^3.0.3",
+    "curtainsjs": "^8.1.6",
     "framer-motion": "^13.5.0",
     "gsap": "^3.15.0",
     "jose": "^6.2.12",
@@ -32,6 +38,7 @@
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.62.5",
     "@tailwindcss/postcss": "^4",
+    "@theatre/studio": "^0.7.2",
     "@types/node": "^24.19.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
