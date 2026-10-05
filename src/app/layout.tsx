@@ -12,6 +12,7 @@ import PageTransition from "@/components/cinematic/PageTransition";
 import CursorFX from "@/components/cinematic/CursorFX";
 import ScrollProgress from "@/components/cinematic/ScrollProgress";
 import Chatbot from "@/components/chatbot/Chatbot";
+import WhatsAppFloat from "@/components/whatsapp/WhatsAppFloat";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </main>
         <SiteFooter />
         <StickyQuoteButton />
+        <WhatsAppFloat />
         <Chatbot />
         <PageTransition />
         <CursorFX />
