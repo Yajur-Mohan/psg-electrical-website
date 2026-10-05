@@ -1,4 +1,5 @@
 import Link from "next/link";
+import WhatsAppButton from "@/components/whatsapp/WhatsAppButton";
 
 export default function CtaBand() {
   return (
@@ -6,12 +7,13 @@ export default function CtaBand() {
       <div className="container-site flex flex-col items-start justify-between gap-5 md:flex-row md:items-center">
         <div>
           <h2 className="text-2xl font-extrabold">READY TO POWER YOUR NEXT PROJECT?</h2>
-          <p className="text-white/90">Three quick questions and we&apos;ll send you a quote.</p>
+          <p className="text-white/90">Three quick questions, or WhatsApp us and chat to an electrician.</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <Link href="/quote" className="inline-flex min-h-11 items-center rounded bg-white px-5 font-extrabold text-[#1239a6]">
             GET A QUOTE
           </Link>
+          <WhatsAppButton message="Hi PSG Electrical, I'd like a quote for a job." label="WHATSAPP US" />
           <Link href="/contact" className="inline-flex min-h-11 items-center rounded border border-white/70 px-5 font-extrabold">
             CONTACT US
           </Link>
