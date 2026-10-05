@@ -19,8 +19,8 @@ function secret() {
 }
 
 export async function verifyCredentials(username: string, password: string): Promise<Session | null> {
-  adminRepository.ensureSeeded();
-  const admin = adminRepository.findByUsername(username);
+  await adminRepository.ensureSeeded();
+  const admin = await adminRepository.findByUsername(username);
   // Compare against a dummy hash when the user is unknown to keep timing similar
   const hash = admin?.password_hash ?? "$2b$12$5CAFHYF8DMHv.Php0XJyO.O3FxGuxZoXLhxfcR.XmuA/UKDVEujMG";
   const ok = await bcrypt.compare(password, hash);
