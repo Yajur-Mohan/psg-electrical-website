@@ -129,7 +129,7 @@ export default function PowerJourney() {
         <div data-journey-intro className="absolute inset-0 flex items-center">
           <div className="container-site">
             <div className="max-w-3xl">
-              <p className="eyebrow">Innovation-driven electrical solutions</p>
+              <p className="eyebrow !bg-[#0b0d12]/70 backdrop-blur">Innovation-driven electrical solutions</p>
               <h1 id="journey-h" className="mt-6 text-[clamp(3rem,9vw,7.5rem)] leading-[0.9] font-extrabold tracking-[-0.04em] uppercase drop-shadow-[0_4px_30px_rgba(0,0,0,.6)]">
                 Powering <br />
                 <span className="text-gradient">what matters.</span>
