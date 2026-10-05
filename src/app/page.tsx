@@ -12,6 +12,10 @@ import Storyline from "@/components/effects/Storyline";
 import KineticBanner from "@/components/effects/KineticBanner";
 import QuoteFlow from "@/components/quote/QuoteFlow";
 import ContactDetails from "@/components/ui/ContactDetails";
+import DbBoardDemo from "@/components/cinematic/DbBoardDemo";
+import CurrentToClean from "@/components/brand/CurrentToClean";
+import SolarFlow from "@/components/brand/SolarFlow";
+import { TriteLockup } from "@/components/brand/Logos";
 
 const story = [
   { label: "Step 1", title: "Tell us what you need", text: "Three quick questions, or a phone call. No long forms." },
@@ -37,6 +41,24 @@ export default function Home() {
       <HorizontalServices />
 
       <Storyline steps={story} />
+
+      <section className="relative overflow-hidden py-24" aria-labelledby="demo-h">
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-brand opacity-60" />
+        <div className="container-site">
+          <Reveal>
+            <p className="inline-flex items-center gap-2 rounded-full border border-psg-pink/50 bg-psg-pink/10 px-3 py-1 text-xs font-extrabold tracking-[0.2em] text-[#ff8fb6] uppercase">
+              ⚡ Live demo ⚡
+            </p>
+            <h2 id="demo-h" className="mt-4 text-4xl font-black uppercase sm:text-5xl">
+              Flip the <span className="text-gradient">switches</span>
+            </h2>
+            <p className="mt-3 mb-10 max-w-xl text-muted">
+              This is how we power homes, businesses and a sustainable future. Try the main isolator, then each circuit.
+            </p>
+          </Reveal>
+          <DbBoardDemo />
+        </div>
+      </section>
 
       <section className="py-24" aria-labelledby="work-h">
         <div className="container-site grid items-center gap-12 md:grid-cols-2">
@@ -74,21 +96,27 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="pb-24" aria-labelledby="solar-h">
+      <CurrentToClean />
+
+      <section className="bg-[#0f140f] py-24" aria-labelledby="solar-h">
         <div className="container-site">
           <Reveal>
-            <ElectricFrame color="#9bd454" glowColor="#3fbf6a" radius={24}>
-              <div className="grid items-center gap-6 rounded-3xl bg-[linear-gradient(90deg,#18211e,#21352c_60%,#384631)] p-8 md:grid-cols-[2fr_1fr] md:p-14">
+            <ElectricFrame color="#8ccf3f" glowColor="#f5b335" radius={28}>
+              <div className="grid items-center gap-10 rounded-[1.75rem] bg-[linear-gradient(120deg,#121a12,#1a2a16_55%,#2f2f12)] p-8 md:p-12 lg:grid-cols-[1fr_1.2fr]">
                 <div>
-                  <p className="text-xs font-extrabold tracking-[0.15em] text-solar uppercase">Powering a cleaner tomorrow</p>
-                  <h2 id="solar-h" className="mt-2 text-4xl font-extrabold uppercase sm:text-5xl">Trite Solar</h2>
-                  <p className="mt-3 text-[#cfd8cf]">
+                  <TriteLockup />
+                  <h2 id="solar-h" className="mt-6 text-4xl font-black uppercase sm:text-5xl">
+                    Smarter energy. <br />
+                    <span className="text-trite-gradient">Smarter living.</span>
+                  </h2>
+                  <p className="mt-4 text-[#d6dfcf]">
                     Our solar division brings the same technical focus to hybrid solar, inverters and battery backup.
                   </p>
+                  <Link data-magnetic href="/trite-solar" className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-trite px-7 font-extrabold text-[#102008]">
+                    EXPLORE TRITE SOLAR
+                  </Link>
                 </div>
-                <Link data-magnetic href="/trite-solar" className="inline-flex min-h-12 items-center justify-center rounded-full bg-solar px-6 font-extrabold text-[#13200f]">
-                  EXPLORE TRITE SOLAR
-                </Link>
+                <SolarFlow />
               </div>
             </ElectricFrame>
           </Reveal>
