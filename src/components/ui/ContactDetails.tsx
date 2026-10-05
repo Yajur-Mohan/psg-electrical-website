@@ -1,11 +1,26 @@
 import { business } from "@/lib/site";
 
+type Link = { text: string; href: string; hint?: string };
+type Item = { icon: string; label: string; links?: Link[]; value?: string };
+
 // Direct contact details stay visible next to every form (MASTER-IMPLEMENTATION §1.1).
 export default function ContactDetails() {
-  const items = [
-    { icon: "☎", label: "Call", value: business.phoneDisplay, href: `tel:${business.phoneE164}` },
-    { icon: "✆", label: "WhatsApp", value: "Chat with us", href: `https://wa.me/${business.whatsapp}` },
-    { icon: "✉", label: "Email", value: business.email, href: `mailto:${business.email}` },
+  const items: Item[] = [
+    {
+      icon: "☎",
+      label: "Call",
+      links: business.phones.map((p) => ({ text: p.display, href: `tel:${p.e164}` })),
+    },
+    {
+      icon: "✆",
+      label: "WhatsApp",
+      links: business.phones.map((p) => ({ text: p.display, href: `https://wa.me/${p.whatsapp}` })),
+    },
+    {
+      icon: "✉",
+      label: "Email",
+      links: business.emails.map((e) => ({ text: e.address, href: `mailto:${e.address}`, hint: e.label })),
+    },
     { icon: "◷", label: "Hours", value: business.hours },
     { icon: "⚡", label: "Emergencies", value: business.emergency },
     { icon: "⌖", label: "Service area", value: business.serviceArea },
@@ -17,12 +32,23 @@ export default function ContactDetails() {
           <span aria-hidden="true" className="grid size-10 shrink-0 place-items-center rounded-lg bg-[#1d2a44] text-brand-bright">
             {i.icon}
           </span>
-          <span>
+          <span className="min-w-0">
             <span className="block text-sm font-bold">{i.label}</span>
-            {i.href ? (
-              <a href={i.href} className="text-[#a9c1ff] underline hover:text-white">
-                {i.value}
-              </a>
+            {i.links ? (
+              <span className="flex flex-col gap-1">
+                {i.links.map((l) => (
+                  <span key={l.href} className="break-all">
+                    <a
+                      href={l.href}
+                      className="inline-flex min-h-6 items-center text-[#a9c1ff] underline hover:text-white"
+                      aria-label={l.hint ? `${l.text} (${l.hint})` : undefined}
+                    >
+                      {l.text}
+                    </a>
+                    {l.hint && <span className="ml-2 text-xs text-muted">{l.hint}</span>}
+                  </span>
+                ))}
+              </span>
             ) : (
               <span className="text-muted">{i.value}</span>
             )}
