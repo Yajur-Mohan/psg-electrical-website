@@ -5,7 +5,7 @@ import { PsgMark, TriteMark } from "./Logos";
 export default function CurrentToClean() {
   return (
     <section aria-labelledby="c2c-h" className="relative overflow-hidden border-y border-line bg-[#0d0f13] py-14">
-      <div className="container-site flex flex-col items-center gap-8 md:flex-row md:justify-between">
+      <div className="container-site flex flex-col items-center gap-8 lg:flex-row lg:justify-between">
         <div className="flex items-center gap-3">
           <PsgMark className="size-12" />
           <div>
@@ -14,7 +14,7 @@ export default function CurrentToClean() {
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col items-center gap-2 md:px-6">
+        <div className="flex flex-1 flex-col items-center gap-2 lg:px-6">
           <h2 id="c2c-h" className="text-center text-2xl font-black tracking-tight uppercase sm:text-3xl">
             <span className="text-gradient">From current</span> <span className="text-trite-gradient">to clean energy</span>
           </h2>
