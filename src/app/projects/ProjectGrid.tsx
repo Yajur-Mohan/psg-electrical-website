@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { projects, type ProjectCategory } from "@/lib/site";
+import WhatsAppButton from "@/components/whatsapp/WhatsAppButton";
 
 const FILTERS: ("All" | ProjectCategory)[] = ["All", "Commercial", "Industrial", "Residential", "Solar"];
 
@@ -31,14 +32,20 @@ export default function ProjectGrid() {
       </p>
       <ul className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {shown.map((p) => (
-          <li key={p.title} className="overflow-hidden rounded-xl border border-line bg-card">
+          <li key={p.title} className="flex flex-col overflow-hidden rounded-xl border border-line bg-card">
             <div aria-hidden="true" className="grid h-40 place-items-center bg-[linear-gradient(145deg,#39404a,#1c2026)] font-extrabold tracking-widest text-[#9aa3b1] uppercase">
               {p.category}
             </div>
-            <div className="p-5">
+            <div className="flex flex-1 flex-col p-5">
               <p className="text-xs font-bold text-[#8fb0ff] uppercase">{p.tag}</p>
               <h2 className="mt-1 text-lg font-bold">{p.title}</h2>
               <p className="mt-1 text-sm text-muted">{p.text}</p>
+              <WhatsAppButton
+                variant="link"
+                className="mt-auto pt-3"
+                label="Ask about a job like this"
+                message={`Hi PSG Electrical, I saw your "${p.title}" project and I'd like something similar.`}
+              />
             </div>
           </li>
         ))}
