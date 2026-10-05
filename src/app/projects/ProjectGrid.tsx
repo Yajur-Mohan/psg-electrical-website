@@ -1,14 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
 import { projects, type ProjectCategory } from "@/lib/site";
 import WhatsAppButton from "@/components/whatsapp/WhatsAppButton";
+import RippleImage from "@/components/effects/RippleImage";
+
+const IMAGES: Record<ProjectCategory, string> = {
+  Commercial: "/projects/commercial.svg",
+  Industrial: "/projects/industrial.svg",
+  Residential: "/projects/residential.svg",
+  Solar: "/projects/solar.svg",
+};
 
 const FILTERS: ("All" | ProjectCategory)[] = ["All", "Commercial", "Industrial", "Residential", "Solar"];
 
 export default function ProjectGrid() {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>("All");
   const shown = filter === "All" ? projects : projects.filter((p) => p.category === filter);
+  const reduce = useReducedMotion();
 
   return (
     <>
@@ -30,26 +40,41 @@ export default function ProjectGrid() {
       <p aria-live="polite" className="mt-4 text-sm text-muted">
         Showing {shown.length} {shown.length === 1 ? "project" : "projects"}
       </p>
-      <ul className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {shown.map((p) => (
-          <li key={p.title} className="flex flex-col overflow-hidden rounded-xl border border-line bg-card">
-            <div aria-hidden="true" className="grid h-40 place-items-center bg-[linear-gradient(145deg,#39404a,#1c2026)] font-extrabold tracking-widest text-[#9aa3b1] uppercase">
-              {p.category}
-            </div>
-            <div className="flex flex-1 flex-col p-5">
-              <p className="text-xs font-bold text-[#8fb0ff] uppercase">{p.tag}</p>
-              <h2 className="mt-1 text-lg font-bold">{p.title}</h2>
-              <p className="mt-1 text-sm text-muted">{p.text}</p>
-              <WhatsAppButton
-                variant="link"
-                className="mt-auto pt-3"
-                label="Ask about a job like this"
-                message={`Hi PSG Electrical, I saw your "${p.title}" project and I'd like something similar.`}
-              />
-            </div>
-          </li>
-        ))}
-      </ul>
+      {/* Framer Motion: cards glide to their new spots when the filter changes */}
+      <LayoutGroup>
+        <motion.ul layout={!reduce} className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence mode="popLayout" initial={false}>
+            {shown.map((p) => (
+              <motion.li
+                key={p.title}
+                layout={!reduce}
+                initial={reduce ? false : { opacity: 0, scale: 0.92, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.9, filter: "blur(6px)" }}
+                transition={{ type: "spring", stiffness: 260, damping: 28 }}
+                className="flex flex-col overflow-hidden rounded-xl border border-line bg-card"
+              >
+                <RippleImage
+                  src={IMAGES[p.category]}
+                  alt={`Illustration of a ${p.category.toLowerCase()} electrical project`}
+                  className="h-44"
+                />
+                <div className="flex flex-1 flex-col p-5">
+                  <p className="text-xs font-bold text-[#8fb0ff] uppercase">{p.tag}</p>
+                  <h2 className="mt-1 text-lg font-bold">{p.title}</h2>
+                  <p className="mt-1 text-sm text-muted">{p.text}</p>
+                  <WhatsAppButton
+                    variant="link"
+                    className="mt-auto pt-3"
+                    label="Ask about a job like this"
+                    message={`Hi PSG Electrical, I saw your "${p.title}" project and I'd like something similar.`}
+                  />
+                </div>
+              </motion.li>
+            ))}
+          </AnimatePresence>
+        </motion.ul>
+      </LayoutGroup>
     </>
   );
 }
