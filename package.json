@@ -3,13 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "vite dev",
+    "build": "vite build",
+    "start": "vite preview",
     "lint": "eslint",
     "smoke": "node scripts/smoke.mjs",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "node --test src/lib/chatbot/engine.test.ts"
+    "test": "node --test src/lib/chatbot/engine.test.ts",
+    "deploy": "vinext-cloudflare deploy",
+    "db:migrate": "wrangler d1 migrations apply psg-electrical-db --remote",
+    "db:migrate:local": "wrangler d1 migrations apply psg-electrical-db --local",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -19,19 +23,28 @@
     "lenis": "^1.3.26",
     "motion": "^13.5.0",
     "next": "16.3.8",
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "server-only": "^0.0.1",
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.62.5",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^24.19.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vinext/cloudflare": "^1.0.1",
+    "@vitejs/plugin-react": "^6.1.2",
+    "@vitejs/plugin-rsc": "^0.5.35",
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
+    "react-server-dom-webpack": "^19.3.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
-  }
+    "typescript": "^5",
+    "vinext": "^1.0.1",
+    "vite": "^8.3.2",
+    "wrangler": "^4.147.0"
+  },
+  "type": "module"
 }
