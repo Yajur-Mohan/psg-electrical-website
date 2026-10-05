@@ -3,6 +3,7 @@ import PageHero from "@/components/ui/PageHero";
 import CtaBand from "@/components/ui/CtaBand";
 import BeforeAfter from "@/components/effects/BeforeAfter";
 import ProjectGrid from "./ProjectGrid";
+import FeaturedReveal from "./FeaturedReveal";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -15,6 +16,7 @@ export default function ProjectsPage() {
       <PageHero eyebrow="Proof in the work" title="Our recent" accent="projects">
         Representative electrical, cabling, maintenance and solar projects. Filter by the type of site.
       </PageHero>
+      <FeaturedReveal />
       <section className="py-16">
         <div className="container-site">
           <ProjectGrid />
