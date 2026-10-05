@@ -4,6 +4,7 @@ import PageHero from "@/components/ui/PageHero";
 import CtaBand from "@/components/ui/CtaBand";
 import Reveal from "@/components/effects/Reveal";
 import { services } from "@/lib/site";
+import WhatsAppButton from "@/components/whatsapp/WhatsAppButton";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -31,12 +32,19 @@ export default function ServicesPage() {
                     <li key={p} className="flex gap-2"><span aria-hidden="true" className="text-success">✓</span>{p}</li>
                   ))}
                 </ul>
-                <Link
-                  href={s.slug === "solar" ? "/trite-solar" : "/quote"}
-                  className="mt-auto pt-6 font-bold text-[#a9c1ff] underline"
-                >
-                  {s.slug === "solar" ? "Explore Trite Solar" : `Get a quote for ${s.title.toLowerCase()}`}
-                </Link>
+                <div className="mt-auto flex flex-col items-start gap-1 pt-6">
+                  <Link
+                    href={s.slug === "solar" ? "/trite-solar" : "/quote"}
+                    className="inline-flex min-h-11 items-center font-bold text-[#a9c1ff] underline"
+                  >
+                    {s.slug === "solar" ? "Explore Trite Solar" : `Get a quote for ${s.title.toLowerCase()}`}
+                  </Link>
+                  <WhatsAppButton
+                    variant="link"
+                    label={`WhatsApp about ${s.title.toLowerCase()}`}
+                    message={`Hi PSG Electrical, I'd like to ask about ${s.title.toLowerCase()}.`}
+                  />
+                </div>
               </article>
             </Reveal>
           ))}
