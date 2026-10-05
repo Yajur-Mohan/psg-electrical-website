@@ -1,5 +1,5 @@
 import Link from "next/link";
-import CinematicHero from "@/components/cinematic/CinematicHero";
+import PowerJourney from "@/components/journey/PowerJourney";
 import ScrollTextReveal from "@/components/cinematic/ScrollTextReveal";
 import HorizontalServices from "@/components/cinematic/HorizontalServices";
 import VelocityMarquee from "@/components/cinematic/VelocityMarquee";
@@ -29,7 +29,7 @@ const story = [
 export default function Home() {
   return (
     <>
-      <CinematicHero />
+      <PowerJourney />
 
       <ScrollTextReveal
         kicker="25+ years on the tools"
