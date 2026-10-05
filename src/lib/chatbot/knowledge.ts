@@ -309,7 +309,7 @@ export const INTENTS: Intent[] = [
     topic: "company",
     keywords: ["contact", "phone", "call", "number", "email", "whatsapp", "reach", "talk", "human", "person"],
     phrases: ["speak to someone", "phone number", "talk to a person"],
-    answer: "You can call, WhatsApp or email us. All our details are on the Contact page, and we're happy to help directly.",
+    answer: `Call or WhatsApp us on ${business.phones.map((p) => p.display).join(" or ")}, or email ${business.email}. We're available ${business.hours}, and all our details are on the Contact page.`,
     links: [CONTACT, { label: "Call us", href: `tel:${business.phoneE164}` }],
   },
   {
