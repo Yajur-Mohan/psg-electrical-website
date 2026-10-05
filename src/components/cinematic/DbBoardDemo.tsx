@@ -44,7 +44,7 @@ export default function DbBoardDemo() {
         {/* Cables down to the house */}
         <svg aria-hidden="true" viewBox="0 0 500 70" className="mt-3 h-14 w-full" preserveAspectRatio="none">
           {CIRCUITS.map((c, i) => {
-            const x = 150 + i * 88;
+            const x = 150 + i * 100; // centre of each breaker column (5 columns across 500)
             return (
               <path
                 key={c.id}
