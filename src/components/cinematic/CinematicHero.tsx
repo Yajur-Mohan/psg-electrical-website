@@ -87,7 +87,7 @@ export default function CinematicHero() {
 
       <div data-content className="container-site relative z-10 py-28">
         <div data-parallax className="max-w-3xl">
-          <p data-eyebrow className="eyebrow">Professional Electrical Solutions</p>
+          <p data-eyebrow className="eyebrow">Innovation-driven electrical solutions</p>
           <h1
             id="hero-h"
             data-headline
