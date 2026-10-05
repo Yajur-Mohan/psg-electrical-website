@@ -1,17 +1,28 @@
 // Single source of truth for business content.
 // Copy comes from the team's PSG live prototype and the HYDRA Task 1 documentation.
-// TODO(client): confirm the real phone, WhatsApp, email and service area before launch.
+// Contact details confirmed by the client (Oct 2026). Service area still to confirm.
 
 export const business = {
   name: "PSG Electrical and Cables",
   shortName: "PSG Electrical",
   solarBrand: "Trite Solar",
   tagline: "Powering what matters.",
-  phoneDisplay: "000 000 0000",
-  phoneE164: "+27000000000",
-  whatsapp: "27000000000",
-  email: "quotes@example.co.za",
-  hours: "Monday to Friday, 07:00–17:00",
+  // Primary contact, used wherever only one link fits (chatbot, error messages)
+  phoneDisplay: "082 603 9283",
+  phoneE164: "+27826039283",
+  whatsapp: "27826039283",
+  email: "keoran@psgelectrical.co.za",
+  // Both numbers take calls and WhatsApp messages
+  phones: [
+    { display: "082 603 9283", e164: "+27826039283", whatsapp: "27826039283" },
+    { display: "072 752 0848", e164: "+27727520848", whatsapp: "27727520848" },
+  ],
+  emails: [
+    { address: "keoran@psgelectrical.co.za", label: "PSG Electrical" },
+    { address: "keoran@tritesolar.co.za", label: "Trite Solar" },
+    { address: "trite@polka.co.za", label: "General" },
+  ],
+  hours: "07:00–18:00",
   emergency: "24/7 emergency call-outs",
   serviceArea: "Residential, commercial and industrial sites across the region",
   responseTime: "within one working day",
