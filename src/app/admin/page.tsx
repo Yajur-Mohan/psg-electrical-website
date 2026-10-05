@@ -20,8 +20,7 @@ export default async function AdminPage() {
   const session = await getSession();
   if (!session) redirect("/admin/login");
 
-  const quotes = quoteRepository.list();
-  const queries = contactQueryRepository.list();
+  const [quotes, queries] = await Promise.all([quoteRepository.list(), contactQueryRepository.list()]);
   const fresh = quotes.filter((q) => q.status === "New").length + queries.filter((q) => q.status === "New").length;
 
   return (

@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   }
 
   const { service, size, phone, name, sourcePage } = parsed.data;
-  const id = quoteRepository.create({
+  const id = await quoteRepository.create({
     service,
     size,
     phone,
@@ -39,6 +39,6 @@ export async function PATCH(req: Request) {
   }
   const parsed = quoteNoteSchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return Response.json({ ok: false }, { status: 400 });
-  const ok = quoteRepository.addNote(parsed.data.id, parsed.data.note);
+  const ok = await quoteRepository.addNote(parsed.data.id, parsed.data.note);
   return Response.json({ ok }, { status: ok ? 200 : 404 });
 }

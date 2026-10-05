@@ -23,7 +23,7 @@ export async function POST(req: Request) {
   }
 
   const { name, contact, message } = parsed.data;
-  const id = contactQueryRepository.create({ name, contact, message });
+  const id = await contactQueryRepository.create({ name, contact, message });
   console.info(`[contact] query #${id} received`);
   return Response.json({ ok: true, id });
 }

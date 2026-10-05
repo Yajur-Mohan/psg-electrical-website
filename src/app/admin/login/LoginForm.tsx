@@ -18,7 +18,7 @@ export default function LoginForm() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     }).catch(() => null);
-    const json = await res?.json().catch(() => ({}));
+    const json = (await res?.json().catch(() => ({}))) as { ok?: boolean; error?: string } | undefined;
     setBusy(false);
     if (res?.ok && json?.ok) {
       router.replace("/admin");

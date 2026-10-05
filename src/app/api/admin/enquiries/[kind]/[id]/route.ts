@@ -16,8 +16,8 @@ export async function PATCH(req: Request, ctx: RouteContext<"/api/admin/enquirie
   }
 
   let ok = false;
-  if (kind === "contact") ok = contactQueryRepository.setStatus(numericId, parsed.data.status, session.adminId);
-  else if (kind === "quote") ok = quoteRepository.setStatus(numericId, parsed.data.status);
+  if (kind === "contact") ok = await contactQueryRepository.setStatus(numericId, parsed.data.status, session.adminId);
+  else if (kind === "quote") ok = await quoteRepository.setStatus(numericId, parsed.data.status);
   else return Response.json({ ok: false }, { status: 404 });
 
   return Response.json({ ok }, { status: ok ? 200 : 404 });
