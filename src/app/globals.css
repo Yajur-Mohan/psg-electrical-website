@@ -322,3 +322,28 @@ html.intro-lock body {
   background-clip: text;
   color: transparent;
 }
+
+/* Current flowing along a cable (DB board demo, solar flow, brand bridge) */
+.cable-live {
+  stroke-dasharray: 10 8;
+  animation: cable-flow 0.9s linear infinite;
+}
+@keyframes cable-flow {
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+.sun-spin {
+  animation: sun-spin 30s linear infinite;
+}
+@keyframes sun-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cable-live,
+  .sun-spin {
+    animation: none;
+  }
+}
