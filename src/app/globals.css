@@ -14,6 +14,11 @@
   --purple: #7b45f5;
   --magenta: #d736e8;
   --solar: #9bd454;
+  /* Poster palette: PSG logo gradient, Trite leaf green and sun yellow */
+  --psg-sky: #2f9ee5;
+  --psg-pink: #ea357a;
+  --trite: #8ccf3f;
+  --sun: #f5b335;
   --success: #35d39a;
   --danger: #ff8094;
   --max: 1180px;
@@ -31,6 +36,10 @@
   --color-purple: var(--purple);
   --color-magenta: var(--magenta);
   --color-solar: var(--solar);
+  --color-psg-sky: var(--psg-sky);
+  --color-psg-pink: var(--psg-pink);
+  --color-trite: var(--trite);
+  --color-sun: var(--sun);
   --color-success: var(--success);
   --color-danger: var(--danger);
   --font-sans: var(--font-inter);
@@ -62,14 +71,15 @@ body {
 }
 
 .text-gradient {
-  background: linear-gradient(90deg, var(--blue-bright), #a07bff, #e46cf2);
+  /* Matches the PSG logo: sky blue → purple → pink */
+  background: linear-gradient(90deg, #4fb0f0, #a07bff, #f0629a);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .bg-gradient-brand {
-  background: linear-gradient(90deg, var(--blue), var(--purple), var(--magenta));
+  background: linear-gradient(90deg, var(--psg-sky), var(--purple), var(--psg-pink));
 }
 
 .eyebrow {
@@ -303,4 +313,12 @@ html.intro-lock body {
 @keyframes chat-dot {
   0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
   30% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* Trite Solar text treatment: leaf green to sun yellow */
+.text-trite-gradient {
+  background: linear-gradient(90deg, #8ccf3f, #c5dd3a, #f5b335);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
