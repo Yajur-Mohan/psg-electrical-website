@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { nav } from "@/lib/site";
+import { PsgLockup } from "@/components/brand/Logos";
 
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -19,13 +20,9 @@ export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-[#252a33] bg-bg/95 backdrop-blur">
       <div className="container-site flex h-[74px] items-center justify-between gap-6">
-        <Link href="/" className="flex items-center gap-3 font-extrabold tracking-wide">
-          <span aria-hidden="true" className="grid size-10 place-items-center rounded-full bg-gradient-to-br from-brand to-[#1c4fd7] text-xl">
-            ⚡
-          </span>
-          <span className="leading-tight">
-            PSG ELECTRICAL
-            <small className="block text-[10px] tracking-[0.15em] text-muted">AND CABLES · TRITE SOLAR</small>
+        <Link href="/" aria-label="PSG Electrical and Cables, home" className="group">
+          <span className="block transition-transform group-hover:scale-[1.03]">
+            <PsgLockup compact />
           </span>
         </Link>
 
