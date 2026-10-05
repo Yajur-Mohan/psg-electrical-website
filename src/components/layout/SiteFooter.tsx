@@ -1,12 +1,17 @@
 import Link from "next/link";
 import { business } from "@/lib/site";
+import { PsgLockup, TriteLockup } from "@/components/brand/Logos";
 
 export default function SiteFooter() {
   return (
     <footer className="border-t border-[#272c34] bg-[#14171c] pt-10 pb-24 text-sm sm:pb-6">
       <div className="container-site grid gap-8 md:grid-cols-[2fr_1fr_1fr_1fr]">
         <div>
-          <p className="font-extrabold">⚡ {business.name.toUpperCase()}</p>
+          <div className="flex flex-wrap items-center gap-6">
+            <PsgLockup />
+            <span aria-hidden="true" className="h-8 w-px bg-line" />
+            <TriteLockup />
+          </div>
           <p className="mt-3 max-w-sm text-muted">
             Professional electrical engineering, cabling and maintenance for residential, commercial and industrial
             environments. Solar and backup power through {business.solarBrand}.
