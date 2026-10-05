@@ -14,23 +14,26 @@ export type ContactQuery = {
 
 // Repository for CONTACT_QUERY (HYDRA ERD §4.4, user stories 19 and 24).
 export const contactQueryRepository = {
-  create(q: Pick<ContactQuery, "name" | "contact" | "message">): number {
-    const res = getDb()
+  async create(q: Pick<ContactQuery, "name" | "contact" | "message">): Promise<number> {
+    const res = await getDb()
       .prepare(`INSERT INTO contact_query (name, contact, message) VALUES (?, ?, ?)`)
-      .run(q.name, q.contact, q.message);
-    return Number(res.lastInsertRowid);
+      .bind(q.name, q.contact, q.message)
+      .run();
+    return Number(res.meta.last_row_id);
   },
 
-  list(): ContactQuery[] {
-    return getDb()
+  async list(): Promise<ContactQuery[]> {
+    const { results } = await getDb()
       .prepare(`SELECT * FROM contact_query ORDER BY submitted_date DESC, query_id DESC`)
-      .all() as ContactQuery[];
+      .all<ContactQuery>();
+    return results;
   },
 
-  setStatus(id: number, status: QueryStatus, adminId: number): boolean {
-    const res = getDb()
+  async setStatus(id: number, status: QueryStatus, adminId: number): Promise<boolean> {
+    const res = await getDb()
       .prepare(`UPDATE contact_query SET status = ?, assigned_admin_id = ? WHERE query_id = ?`)
-      .run(status, adminId, id);
-    return res.changes > 0;
+      .bind(status, adminId, id)
+      .run();
+    return res.meta.changes > 0;
   },
 };

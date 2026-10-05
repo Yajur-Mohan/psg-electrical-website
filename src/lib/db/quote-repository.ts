@@ -19,33 +19,37 @@ export type NewQuote = Pick<QuoteRequest, "service" | "size" | "phone" | "name" 
 
 // Repository: every SQL statement for quote_request lives here (HYDRA §5.1).
 export const quoteRepository = {
-  create(q: NewQuote): number {
-    const res = getDb()
+  async create(q: NewQuote): Promise<number> {
+    const res = await getDb()
       .prepare(
         `INSERT INTO quote_request (service, size, phone, name, source_page, user_agent)
          VALUES (?, ?, ?, ?, ?, ?)`,
       )
-      .run(q.service, q.size, q.phone, q.name, q.source_page, q.user_agent);
-    return Number(res.lastInsertRowid);
+      .bind(q.service, q.size, q.phone, q.name, q.source_page, q.user_agent)
+      .run();
+    return Number(res.meta.last_row_id);
   },
 
-  addNote(id: number, note: string): boolean {
-    const res = getDb()
+  async addNote(id: number, note: string): Promise<boolean> {
+    const res = await getDb()
       .prepare(`UPDATE quote_request SET note = ? WHERE quote_request_id = ? AND note = '' AND created_at > datetime('now', '-30 minutes')`)
-      .run(note, id);
-    return res.changes > 0;
+      .bind(note, id)
+      .run();
+    return res.meta.changes > 0;
   },
 
-  list(): QuoteRequest[] {
-    return getDb()
+  async list(): Promise<QuoteRequest[]> {
+    const { results } = await getDb()
       .prepare(`SELECT * FROM quote_request ORDER BY created_at DESC, quote_request_id DESC`)
-      .all() as QuoteRequest[];
+      .all<QuoteRequest>();
+    return results;
   },
 
-  setStatus(id: number, status: QueryStatus): boolean {
-    const res = getDb()
+  async setStatus(id: number, status: QueryStatus): Promise<boolean> {
+    const res = await getDb()
       .prepare(`UPDATE quote_request SET status = ? WHERE quote_request_id = ?`)
-      .run(status, id);
-    return res.changes > 0;
+      .bind(status, id)
+      .run();
+    return res.meta.changes > 0;
   },
 };
