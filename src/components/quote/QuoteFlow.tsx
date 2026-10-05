@@ -70,7 +70,7 @@ export default function QuoteFlow({ sourcePage = "/" }: { sourcePage?: string })
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...answers, phone: normalised, name, company: honeypot, sourcePage }),
       });
-      const data = await res.json().catch(() => ({}));
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; id?: number };
       if (!res.ok || !data.ok) throw new Error(String(res.status));
       setQuoteId(data.id ?? null);
       track("quote_submitted", { service: answers.service ?? "", size: answers.size ?? "" });
