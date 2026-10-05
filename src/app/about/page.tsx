@@ -3,6 +3,7 @@ import PageHero from "@/components/ui/PageHero";
 import CtaBand from "@/components/ui/CtaBand";
 import Reveal from "@/components/effects/Reveal";
 import { reasons, team } from "@/lib/site";
+import BrandSpline from "@/components/brand/BrandSpline";
 
 export const metadata: Metadata = {
   title: "About & Team",
@@ -33,6 +34,24 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      <section className="py-20" aria-labelledby="brand3d-h">
+        <div className="container-site grid items-center gap-10 lg:grid-cols-2">
+          <Reveal>
+            <p className="text-xs font-extrabold tracking-[0.15em] text-[#9aa3b1] uppercase">Two brands, one team</p>
+            <h2 id="brand3d-h" className="mt-1 text-4xl font-black uppercase">
+              <span className="text-gradient">PSG Electrical</span> &amp; <span className="text-trite-gradient">Trite Solar</span>
+            </h2>
+            <p className="mt-4 text-muted">
+              PSG Electrical and Cables keeps homes and businesses safely powered today. Trite Solar, our solar division,
+              builds the sustainable tomorrow. Move your cursor over the logo.
+            </p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <BrandSpline />
+          </Reveal>
         </div>
       </section>
 

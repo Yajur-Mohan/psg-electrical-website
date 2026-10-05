@@ -26,6 +26,8 @@ export const business = {
   emergency: "24/7 emergency call-outs",
   serviceArea: "Residential, commercial and industrial sites across the region",
   responseTime: "within one working day",
+  // Public Spline scene URL (https://prod.spline.design/<id>/scene.splinecode) for the About page 3D brand moment
+  splineScene: "",
 } as const;
 
 export type Service = {
