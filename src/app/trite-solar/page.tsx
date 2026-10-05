@@ -57,7 +57,8 @@ export default function TriteSolarPage() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <aside
+            <div
+              role="group"
               aria-labelledby="dyk-h"
               className="relative rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,#ffd46b,#f5b335_55%,#e3920f)] p-8 text-[#2a1c00] shadow-[0_0_80px_rgba(245,179,53,.35)]"
             >
@@ -71,7 +72,7 @@ export default function TriteSolarPage() {
                   </li>
                 ))}
               </ul>
-            </aside>
+            </div>
           </Reveal>
         </div>
       </section>
