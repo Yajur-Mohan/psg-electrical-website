@@ -17,12 +17,15 @@ export default function PageHero({
   accent,
   children,
   tone = "default",
+  logo,
 }: {
   eyebrow: string;
   title: string;
   accent?: string;
   children?: ReactNode;
   tone?: "default" | "solar";
+  /** Optional brand lockup shown above the eyebrow */
+  logo?: ReactNode;
 }) {
   const reduced = usePrefersReducedMotion();
   const root = useRef<HTMLElement>(null);
@@ -75,7 +78,7 @@ export default function PageHero({
         className="absolute -top-32 right-[-10%] size-[620px] rounded-full blur-3xl"
         style={{
           background: solar
-            ? "radial-gradient(circle, rgba(155,212,84,.28), transparent 65%)"
+            ? "radial-gradient(circle, rgba(245,179,53,.32), rgba(140,207,63,.18) 40%, transparent 68%)"
             : "radial-gradient(circle, rgba(91,140,255,.3), rgba(123,69,245,.18) 40%, transparent 70%)",
         }}
       />
@@ -87,12 +90,17 @@ export default function PageHero({
         {eyebrow} · {eyebrow}
       </p>
       <div className="container-site relative">
-        <p data-eyebrow className="eyebrow">{eyebrow}</p>
+        {logo && (
+          <div data-fade className="mb-8">
+            {logo}
+          </div>
+        )}
+        <p data-eyebrow className={solar ? "eyebrow !border-trite/60 !bg-trite/10 !text-trite" : "eyebrow"}>{eyebrow}</p>
         <h1
           data-title
           className="mt-6 max-w-4xl text-[clamp(2.6rem,7vw,5.5rem)] leading-[0.95] font-extrabold tracking-[-0.03em] uppercase"
         >
-          {title} {accent && <span className={solar ? "text-solar" : "text-gradient"}>{accent}</span>}
+          {title} {accent && <span className={solar ? "text-trite-gradient" : "text-gradient"}>{accent}</span>}
         </h1>
         {children && (
           <div data-fade className="mt-6 max-w-2xl text-lg text-[#c3c9d3]">
