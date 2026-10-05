@@ -9,31 +9,46 @@ accessibility work, and selective cinematic effects.
 
 | Layer | Choice |
 |---|---|
-| Runtime | Node.js 24 |
-| Framework | Next.js 16 (App Router) + React 19 + TypeScript |
+| Hosting | Cloudflare Workers (workers.dev) |
+| Framework | Next.js App Router code, built with [vinext](https://github.com/cloudflare/vinext) (Vite) + React 19 + TypeScript |
 | Styling | Tailwind CSS 4, PSG brand tokens from the team prototype |
 | Effects | [Originkit](https://originkit.dev) (WebGL/canvas components), GSAP + ScrollTrigger, Lenis, Motion |
-| Data | SQLite via Node's built-in `node:sqlite`, behind repositories (HYDRA §5.1) |
+| Data | Cloudflare D1 (serverless SQLite), behind repositories (HYDRA §5.1) |
 | Auth | bcrypt password hashes + signed JWT in an httpOnly cookie (HYDRA §6.1) |
 | Validation | zod, on every API route |
 
 > HYDRA's production design targets Azure Database for PostgreSQL. All SQL lives in `src/lib/db/*-repository.ts`,
-> so moving to Postgres means swapping the driver in `connection.ts` without touching any route.
+> so moving databases means swapping the driver in `connection.ts` without touching any route. (This build already
+> moved once, from `node:sqlite` to D1, by changing only the repositories.)
+
+**Live:** <https://psg-electrical-site.axiomcompute.workers.dev>
 
 ## Getting started
 
 ```bash
 npm install
-cp .env.example .env.local   # then set ADMIN_PASSWORD and JWT_SECRET
-npm run dev                  # http://localhost:3000
+cp .dev.vars.example .dev.vars   # then set ADMIN_PASSWORD and JWT_SECRET
+npm run db:migrate:local         # create the local D1 tables
+npm run dev                      # runs inside workerd, like production
 ```
 
-Staff dashboard: <http://localhost:3000/admin> (the admin account is created from `.env.local` on first login).
+### Deploying to Cloudflare Workers
+
+```bash
+npx wrangler login
+npm run db:migrate               # apply migrations/ to the remote D1 database
+npm run deploy                   # vite build + wrangler deploy
+npx wrangler secret put ADMIN_PASSWORD   # also ADMIN_USERNAME and JWT_SECRET
+```
+
+Staff dashboard: `/admin` (the admin account is created from the Worker secrets on first login).
 
 | Script | What it does |
 |---|---|
-| `npm run dev` | Development server |
-| `npm run build` / `npm start` | Production build and server |
+| `npm run dev` | Development server (Vite + workerd, local D1) |
+| `npm run build` / `npm start` | Production build and local preview |
+| `npm run deploy` | Build and deploy to Cloudflare Workers |
+| `npm run db:migrate` | Apply D1 migrations to the live database |
 | `npm run lint` | ESLint (Next.js + React hooks rules) |
 | `npm run typecheck` | Generates route types and runs `tsc` |
 | `npm test` | Chatbot intent-matching unit tests (Node's built-in test runner) |
@@ -117,10 +132,11 @@ src/
     layout/ ui/        header, footer, shared blocks
   lib/
     chatbot/           knowledge base, scoring engine and tests
-    db/                SQLite connection + repositories
+    db/                D1 connection + repositories
     site.ts            all business copy in one place
     validation.ts      zod schemas
     auth.ts            bcrypt + JWT session
+migrations/            D1 schema
 docs/                  master implementation plan
 scripts/smoke.mjs      end-to-end smoke test
 ```
