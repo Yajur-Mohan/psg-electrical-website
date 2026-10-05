@@ -6,6 +6,8 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { whatsappLink } from "@/lib/site";
+import WhatsAppIcon from "@/components/whatsapp/WhatsAppIcon";
 
 const CursorRingField = dynamic(() => import("@/components/originkit/ui/cursor-ring-field"), { ssr: false });
 
@@ -47,14 +49,22 @@ export default function OutroCta() {
           Ready to <br />
           <span className="text-gradient">switch on?</span>
         </h2>
-        <p className="mx-auto mt-6 max-w-md text-lg text-[#c3c9d3]">Three quick questions. A real electrician replies within one working day.</p>
+        <p className="mx-auto mt-6 max-w-md text-lg text-[#c3c9d3]">Three quick questions, or WhatsApp a real electrician right now.</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link data-magnetic href="#quote" className="bg-gradient-brand inline-flex min-h-14 items-center rounded-full px-8 text-lg font-extrabold">
             Start my quote
           </Link>
-          <Link data-magnetic href="/contact" className="inline-flex min-h-14 items-center rounded-full border border-white/30 px-8 text-lg font-extrabold">
-            Talk to us
-          </Link>
+          <a
+            data-magnetic
+            href={whatsappLink("Hi PSG Electrical, I'm ready to switch on. Can we chat about my job?")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-14 items-center gap-2 rounded-full bg-[#25d366] px-8 text-lg font-extrabold text-[#06301a]"
+          >
+            <WhatsAppIcon className="size-6" />
+            WhatsApp us
+            <span className="sr-only"> (opens WhatsApp in a new tab)</span>
+          </a>
         </div>
       </div>
     </section>

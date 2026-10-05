@@ -8,6 +8,7 @@ import SolarFlow from "@/components/brand/SolarFlow";
 import CurrentToClean from "@/components/brand/CurrentToClean";
 import { TriteLockup } from "@/components/brand/Logos";
 import { solarServices } from "@/lib/site";
+import WhatsAppButton from "@/components/whatsapp/WhatsAppButton";
 
 export const metadata: Metadata = {
   title: "Trite Solar",
@@ -120,9 +121,16 @@ export default function TriteSolarPage() {
                 <h2 className="text-3xl font-black">Load-shedding ready?</h2>
                 <p className="mt-1 text-[#d6dfcf]">Tell us roughly what you want to keep running and we&apos;ll size a system.</p>
               </div>
-              <Link data-magnetic href="/quote" className="inline-flex min-h-12 items-center rounded-full bg-trite px-7 font-extrabold text-[#102008]">
-                REQUEST A SOLAR QUOTE
-              </Link>
+              <div className="flex flex-wrap gap-3">
+                <Link data-magnetic href="/quote" className="inline-flex min-h-12 items-center rounded-full bg-trite px-7 font-extrabold text-[#102008]">
+                  REQUEST A SOLAR QUOTE
+                </Link>
+                <WhatsAppButton
+                  className="!min-h-12 !rounded-full"
+                  label="WHATSAPP TRITE SOLAR"
+                  message="Hi Trite Solar, I'd like help sizing a solar or backup power system."
+                />
+              </div>
             </div>
           </ElectricFrame>
         </div>
