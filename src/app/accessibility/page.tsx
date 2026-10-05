@@ -38,7 +38,8 @@ export default function AccessibilityPage() {
         <h2>Tell us about a barrier</h2>
         <p>
           If anything on this site doesn&apos;t work for you, call us on{" "}
-          <a className="text-[#a9c1ff] underline" href={`tel:${business.phoneE164}`}>{business.phoneDisplay}</a>, WhatsApp
+          <a className="text-[#a9c1ff] underline" href={`tel:${business.phones[0].e164}`}>{business.phones[0].display}</a> or{" "}
+          <a className="text-[#a9c1ff] underline" href={`tel:${business.phones[1].e164}`}>{business.phones[1].display}</a>, WhatsApp
           us, or email <a className="text-[#a9c1ff] underline" href={`mailto:${business.email}`}>{business.email}</a> and
           we&apos;ll help directly. We aim to respond {business.responseTime}.
         </p>

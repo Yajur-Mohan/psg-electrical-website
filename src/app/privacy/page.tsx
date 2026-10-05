@@ -40,7 +40,8 @@ export default function PrivacyPage() {
         <h2>Your rights</h2>
         <p>
           You can ask to see, correct or delete your information at any time. Contact us on{" "}
-          <a className="text-[#a9c1ff] underline" href={`tel:${business.phoneE164}`}>{business.phoneDisplay}</a> or{" "}
+          <a className="text-[#a9c1ff] underline" href={`tel:${business.phones[0].e164}`}>{business.phones[0].display}</a>,{" "}
+          <a className="text-[#a9c1ff] underline" href={`tel:${business.phones[1].e164}`}>{business.phones[1].display}</a> or{" "}
           <a className="text-[#a9c1ff] underline" href={`mailto:${business.email}`}>{business.email}</a>. You may also
           complain to the Information Regulator of South Africa.
         </p>
