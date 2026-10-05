@@ -30,10 +30,21 @@ export default function SiteFooter() {
         <div>
           <h2 className="text-xs font-bold tracking-widest uppercase">Contact</h2>
           <ul className="mt-3 grid gap-2 text-muted">
-            <li><a href={`tel:${business.phoneE164}`} className="hover:text-white">Call {business.phoneDisplay}</a></li>
-            <li><a href={`https://wa.me/${business.whatsapp}`} className="hover:text-white">WhatsApp us</a></li>
-            <li><a href={`mailto:${business.email}`} className="hover:text-white">{business.email}</a></li>
-            <li>{business.hours}</li>
+            {business.phones.map((p) => (
+              <li key={p.e164}>
+                <a href={`tel:${p.e164}`} className="hover:text-white">Call {p.display}</a>
+                {" · "}
+                <a href={`https://wa.me/${p.whatsapp}`} className="hover:text-white">
+                  WhatsApp<span className="sr-only"> {p.display}</span>
+                </a>
+              </li>
+            ))}
+            {business.emails.map((e) => (
+              <li key={e.address} className="break-all">
+                <a href={`mailto:${e.address}`} className="hover:text-white">{e.address}</a>
+              </li>
+            ))}
+            <li>Hours: {business.hours}</li>
           </ul>
         </div>
         <div>
