@@ -5,6 +5,7 @@ import CtaBand from "@/components/ui/CtaBand";
 import Reveal from "@/components/effects/Reveal";
 import ElectricFrame from "@/components/effects/ElectricFrame";
 import SolarFlow from "@/components/brand/SolarFlow";
+import SolarExploded from "@/components/solar/SolarExploded";
 import CurrentToClean from "@/components/brand/CurrentToClean";
 import { TriteLockup } from "@/components/brand/Logos";
 import { solarServices } from "@/lib/site";
@@ -77,6 +78,8 @@ export default function TriteSolarPage() {
           </Reveal>
         </div>
       </section>
+
+      <SolarExploded />
 
       <section className="py-20" aria-labelledby="why-solar-h">
         <div className="container-site grid gap-12 lg:grid-cols-[1fr_1.4fr]">
