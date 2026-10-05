@@ -49,3 +49,11 @@ next-env.d.ts
 
 # local tooling
 /.claude/
+/dist/
+.vinext/
+.cloudflare/
+
+# Wrangler local secrets
+.dev.vars*
+!.dev.vars.example
+.wrangler/
