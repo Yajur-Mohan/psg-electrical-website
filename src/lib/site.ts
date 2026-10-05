@@ -148,3 +148,8 @@ export const nav = [
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];
+
+/** WhatsApp click-to-chat link with a pre-filled message (defaults to the primary number). */
+export function whatsappLink(message: string, number: string = business.whatsapp): string {
+  return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+}
