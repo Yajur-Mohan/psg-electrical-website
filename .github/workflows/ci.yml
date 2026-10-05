@@ -8,8 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      JWT_SECRET: ci-only-secret-not-used-anywhere-else-000000
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -21,8 +19,12 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
-      - name: Smoke test
+      - name: Local D1 database and Worker secrets
         run: |
-          npm start &
-          npx --yes wait-on http://localhost:3000 --timeout 60000
-          npm run smoke
+          npx wrangler d1 migrations apply psg-electrical-db --local
+          printf 'ADMIN_USERNAME=admin\nADMIN_PASSWORD=ci-only-password\nJWT_SECRET=ci-only-secret-not-used-anywhere-else-000000\n' > .dev.vars
+      - name: Smoke test (Worker running in workerd)
+        run: |
+          npx vite preview --port 4173 &
+          npx --yes wait-on http://localhost:4173 --timeout 90000
+          BASE_URL=http://localhost:4173 npm run smoke
