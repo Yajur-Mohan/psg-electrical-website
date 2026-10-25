@@ -18,8 +18,9 @@ export default function StatCounters() {
     const ctx = gsap.context(() => {
       root.current!.querySelectorAll<HTMLElement>("[data-count]").forEach((el) => {
         const final = el.dataset.count!;
+        // Only plain counts like "25+" or "100%" count up; text such as "7am–6pm" stays as-is
+        if (!/^\d+[+%]?$/.test(final)) return;
         const num = parseFloat(final);
-        if (Number.isNaN(num)) return;
         const suffix = final.replace(String(num), "");
         const state = { v: 0 };
         gsap.to(state, {
@@ -47,7 +48,10 @@ export default function StatCounters() {
       {stats.map((s) => (
         <li key={s.label} className="relative overflow-hidden rounded-2xl border border-line bg-[linear-gradient(160deg,#222833,#171a20)] p-8 text-center">
           <span aria-hidden="true" className="bg-gradient-brand absolute inset-x-0 top-0 h-px" />
-          <strong data-count={s.value} className="text-gradient block text-5xl font-extrabold tabular-nums">
+          <strong
+            data-count={s.value}
+            className={`text-gradient block font-extrabold tabular-nums ${s.value.length > 4 ? "text-3xl leading-[3rem] sm:text-4xl" : "text-5xl"}`}
+          >
             {s.value}
           </strong>
           <span className="mt-2 block text-sm text-muted">{s.label}</span>

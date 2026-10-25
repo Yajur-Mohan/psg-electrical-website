@@ -1,6 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import dynamic from "next/dynamic";
+import { useState, useSyncExternalStore } from "react";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+
+// three.js only downloads when the demo mounts
+const House3D = dynamic(() => import("./House3D"), {
+  ssr: false,
+  loading: () => <div className="size-full animate-pulse rounded-2xl bg-[#171a20]" />,
+});
+
+let webglSupport: boolean | undefined;
+function hasWebGL() {
+  if (webglSupport === undefined) {
+    try {
+      const c = document.createElement("canvas");
+      webglSupport = !!(c.getContext("webgl2") || c.getContext("webgl"));
+    } catch {
+      webglSupport = false;
+    }
+  }
+  return webglSupport;
+}
+const noopSubscribe = () => () => {};
 
 type Circuit = "lighting" | "power" | "security" | "solar";
 
@@ -12,8 +34,12 @@ const CIRCUITS: { id: Circuit; label: string; color: string }[] = [
 ];
 
 // "Live demo" from the brand poster: a distribution board whose main isolator and
-// breakers actually power a little house. Switches are real role="switch" buttons.
+// breakers actually power a little 3D house. Switches are real role="switch" buttons.
+// Without WebGL the flat SVG house stands in.
 export default function DbBoardDemo() {
+  const reduced = usePrefersReducedMotion();
+  // Assume WebGL on the server; the client checks once and falls back if missing
+  const webgl = useSyncExternalStore(noopSubscribe, hasWebGL, () => true);
   const [main, setMain] = useState(true);
   const [on, setOn] = useState<Record<Circuit, boolean>>({ lighting: true, power: true, security: false, solar: true });
   const live = (c: Circuit) => main && on[c];
@@ -62,7 +88,16 @@ export default function DbBoardDemo() {
 
       {/* The house */}
       <div className="text-center">
-        <House lit={live("lighting")} power={live("power")} security={live("security")} solar={live("solar")} />
+        {webgl ? (
+          <div role="img" aria-label="3D house showing which circuits are on" className="mx-auto aspect-[4/3] w-full max-w-lg">
+            <House3D
+              circuits={{ lit: live("lighting"), power: live("power"), security: live("security"), solar: live("solar") }}
+              still={reduced}
+            />
+          </div>
+        ) : (
+          <House lit={live("lighting")} power={live("power")} security={live("security")} solar={live("solar")} />
+        )}
         <p role="status" className="mt-4 text-sm text-muted">
           {!main
             ? "Main isolator is off: the whole house is dead. That's how electricians make a board safe to work on."

@@ -7,7 +7,7 @@ import QuoteFlow from "@/components/quote/QuoteFlow";
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: "Call, WhatsApp or email PSG Electrical, or send a quick message. Emergency support available 24/7.",
+  description: "Call, WhatsApp or email PSG Electrical, or send a quick message. Support available 07:00–18:00.",
 };
 
 export default function ContactPage() {

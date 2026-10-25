@@ -32,7 +32,7 @@ export const INTENTS: Intent[] = [
     keywords: ["burn", "smoke", "smell", "melt", "fire", "scorch", "hot", "spark", "arc"],
     phrases: ["burning smell", "plug is hot", "sparks", "smoke from"],
     answer:
-      "⚠️ This could be dangerous. If it's safe to do so, switch off the main switch at your DB board and don't touch the outlet or appliance. If there's fire or smoke, get everyone out and call emergency services (10177 / 112). Then call us for an urgent call-out. We offer 24/7 emergency support.",
+      "⚠️ This could be dangerous. If it's safe to do so, switch off the main switch at your DB board and don't touch the outlet or appliance. If there's fire or smoke, get everyone out and call emergency services (10177 / 112). Then call us for an urgent call-out.",
     links: [{ label: "Call us now", href: `tel:${business.phoneE164}` }, CONTACT],
   },
   {
@@ -317,7 +317,7 @@ export const INTENTS: Intent[] = [
     topic: "company",
     keywords: ["hours", "open", "times", "weekend", "saturday", "sunday", "available", "emergency", "after"],
     phrases: ["opening hours", "after hours", "on weekends"],
-    answer: `Office hours are ${business.hours}. For urgent electrical faults we offer 24/7 emergency call-outs. Please phone rather than using the form for emergencies.`,
+    answer: `We're available ${business.hours}. For urgent electrical faults, please phone rather than using the form.`,
     links: [CONTACT],
   },
   {

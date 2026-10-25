@@ -8,12 +8,12 @@ export type Step =
   | { id: "phone"; kind: "contact"; question: string };
 
 export const SERVICE_OPTIONS: Option[] = [
-  { value: "installation", label: "New installation", hint: "Wiring, plugs, lights, fit-outs" },
-  { value: "fault", label: "Fault or repair", hint: "Tripping, no power, burning smell" },
-  { value: "db-board", label: "DB board", hint: "New, upgrade or replacement" },
-  { value: "coc", label: "Compliance (CoC)", hint: "Selling or renting a property" },
-  { value: "solar", label: "Solar & backup", hint: "Trite Solar, inverters, batteries" },
-  { value: "maintenance", label: "Maintenance", hint: "Planned or recurring work" },
+  { value: "installation", label: "New installation" },
+  { value: "fault", label: "Fault or repair" },
+  { value: "db-board", label: "DB board" },
+  { value: "coc", label: "Compliance (CoC)" },
+  { value: "solar", label: "Solar & backup" },
+  { value: "maintenance", label: "Maintenance" },
 ];
 
 export const SIZE_OPTIONS: Option[] = [

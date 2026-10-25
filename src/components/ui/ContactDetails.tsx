@@ -22,7 +22,6 @@ export default function ContactDetails() {
       links: business.emails.map((e) => ({ text: e.address, href: `mailto:${e.address}`, hint: e.label })),
     },
     { icon: "◷", label: "Hours", value: business.hours },
-    { icon: "⚡", label: "Emergencies", value: business.emergency },
     { icon: "⌖", label: "Service area", value: business.serviceArea },
   ];
   return (

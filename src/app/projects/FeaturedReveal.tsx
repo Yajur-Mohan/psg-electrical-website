@@ -30,7 +30,17 @@ export default function FeaturedReveal() {
           ) : (
             <>
               <span className="sr-only">{image.alt}</span>
-              <GlassCurlReveal image={image} trigger="scroll" rounded={16} ripples={18} amount={45} tint="#8ccf3f" style={{ width: "100%", height: "100%" }} />
+              {/* The component defaults to a 1200×800 minimum, which cropped the picture to its top-left corner.
+                  The frame already rounds the corners, so no extra clip either. */}
+              <GlassCurlReveal
+                image={image}
+                trigger="scroll"
+                rounded={0}
+                ripples={18}
+                amount={45}
+                tint="#8ccf3f"
+                style={{ width: "100%", height: "100%", minWidth: 0, minHeight: 0 }}
+              />
             </>
           )}
         </div>

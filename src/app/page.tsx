@@ -33,7 +33,7 @@ export default function Home() {
 
       <ScrollTextReveal
         kicker="25+ years on the tools"
-        text="We wire homes, power businesses and keep industry running. Safely, neatly, and certified to standard, every single time."
+        text="Powering homes, energising businesses, and driving industries forward — with expert workmanship, uncompromising safety, and quality you can trust."
       />
 
       <VelocityMarquee items={["Installations", "Fault finding", "DB boards", "Compliance", "Solar", "Battery backup"]} />

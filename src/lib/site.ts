@@ -20,10 +20,8 @@ export const business = {
   emails: [
     { address: "keoran@psgelectrical.co.za", label: "PSG Electrical" },
     { address: "keoran@tritesolar.co.za", label: "Trite Solar" },
-    { address: "trite@polka.co.za", label: "General" },
   ],
   hours: "07:00–18:00",
-  emergency: "24/7 emergency call-outs",
   serviceArea: "Residential, commercial and industrial sites across the region",
   responseTime: "within one working day",
   // Public Spline scene URL (https://prod.spline.design/<id>/scene.splinecode) for the About page 3D brand moment
@@ -130,7 +128,7 @@ export const reasons = [
 
 export const stats = [
   { value: "25+", label: "Years of industry experience" },
-  { value: "24/7", label: "Emergency support availability" },
+  { value: "7am–6pm", label: "Support available" },
   { value: "3", label: "Client environments" },
   { value: "100%", label: "Focus on safe workmanship" },
 ];
@@ -138,7 +136,7 @@ export const stats = [
 export const faqs = [
   { q: "Do I need an account to get a quote?", a: "No. Answer three quick questions and leave a phone number. We'll WhatsApp or text you back." },
   { q: "Can you issue a Certificate of Compliance (CoC)?", a: "Yes. We inspect and test installations against SANS 10142-1 and can issue a CoC once the installation complies." },
-  { q: "Do you handle emergencies after hours?", a: "Yes, 24/7 emergency support is available for urgent electrical faults. Call us directly rather than using the quote form." },
+  { q: "What if I have an urgent electrical fault?", a: `Call us directly between ${business.hours} rather than using the quote form, and we'll get to you as quickly as we can.` },
   { q: "Who installs solar and battery backup?", a: "Our solar division, Trite Solar, designs and installs hybrid solar, inverter and battery systems." },
   { q: "How quickly will I hear back?", a: `We aim to reply ${business.responseTime} during business hours.` },
   { q: "What areas do you work in?", a: "Residential, commercial and industrial sites. Ask us when you request a quote and we'll confirm." },
