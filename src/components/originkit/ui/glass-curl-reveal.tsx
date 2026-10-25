@@ -412,7 +412,14 @@ export default function GlassCurlReveal(props: Props) {
         let scrollPrimed = false
         let rafId = 0
 
+        // Only draw while on screen
+        let visible = false
+        const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), { rootMargin: "100px" })
+        io.observe(canvas)
+
         const render = () => {
+            rafId = requestAnimationFrame(render)
+            if (!visible || document.hidden) return
             const dpr = Math.min(window.devicePixelRatio || 1, 2)
             const cw = canvas.clientWidth || sizeRef.current.w || 1200
             const ch = canvas.clientHeight || sizeRef.current.h || 800
@@ -463,12 +470,12 @@ export default function GlassCurlReveal(props: Props) {
             gl.uniform3f(u.tint, v.tint[0], v.tint[1], v.tint[2])
 
             gl.drawArrays(gl.TRIANGLES, 0, 6)
-            rafId = requestAnimationFrame(render)
         }
         rafId = requestAnimationFrame(render)
 
         return () => {
             cancelAnimationFrame(rafId)
+            io.disconnect()
             glRef.current = null
         }
 

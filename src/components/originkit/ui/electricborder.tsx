@@ -176,7 +176,11 @@ export default function ElectricBorder({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const octaves = 10;
+    // Performance: the glow is two wide translucent strokes rather than up to ten
+    // shadow-blurred ones, with fewer noise octaves, a lower pixel-ratio cap, ~30 fps,
+    // and no drawing while off screen. The blurred strokes were costing weak GPUs
+    // roughly half their frame rate.
+    const octaves = 6;
     const lacunarity = 1.6;
     const gain = 0.7;
     const amplitude = chaos / 20;
@@ -185,12 +189,15 @@ export default function ElectricBorder({
     const displacement = 40;
     const gi = Math.max(1, Math.min(10, glowIntensity));
     const glowBlur = glow ? 6 + gi * 2 : 0;
-    const glowPasses = glow ? gi : 0;
     const PAD = 120;
+    const DPR_CAP = 1.5;
+    const FRAME_MS = 1000 / 30;
 
     let width = 0,
       height = 0;
-    let lastDpr = Math.min(window.devicePixelRatio || 1, 2);
+    let lastDpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
+    let visible = false;
+    let lastDraw = 0;
 
     function updateSize(mw?: number, mh?: number) {
       const rect = container!.getBoundingClientRect();
@@ -198,7 +205,7 @@ export default function ElectricBorder({
       const h = Math.max(1, mh ?? rect.height);
       const cw = w + PAD * 2;
       const ch = h + PAD * 2;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
       canvas!.width = Math.max(1, Math.floor(cw * dpr));
       canvas!.height = Math.max(1, Math.floor(ch * dpr));
       canvas!.style.width = `${cw}px`;
@@ -211,14 +218,18 @@ export default function ElectricBorder({
     updateSize();
 
     function draw(currentTime: number) {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      animationRef.current = requestAnimationFrame(draw);
+      if (!visible || document.hidden || currentTime - lastDraw < FRAME_MS) return;
+      lastDraw = currentTime;
+      const dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
       if (dpr !== lastDpr) {
         lastDpr = dpr;
         updateSize();
       }
 
       if (!lastFrameTimeRef.current) lastFrameTimeRef.current = currentTime;
-      const dt = (currentTime - lastFrameTimeRef.current) / 1000;
+      // Cap the step so the crackle doesn't jump after scrolling back into view
+      const dt = Math.min((currentTime - lastFrameTimeRef.current) / 1000, 0.1);
       timeRef.current += dt * speed;
       lastFrameTimeRef.current = currentTime;
 
@@ -235,7 +246,7 @@ export default function ElectricBorder({
       const maxR = Math.min(bw, bh) / 2;
       const radius = Math.min(borderRadius, Math.max(0, maxR));
       const perim = 2 * (bw + bh) + 2 * Math.PI * radius;
-      const samples = Math.max(16, Math.floor(perim / 2));
+      const samples = Math.max(16, Math.floor(perim / 4));
 
       ctx!.beginPath();
       for (let i = 0; i <= samples; i++) {
@@ -271,20 +282,22 @@ export default function ElectricBorder({
       ctx!.closePath();
 
       if (glowBlur > 0) {
-        ctx!.lineWidth = 1;
         ctx!.strokeStyle = glowColor;
-        ctx!.shadowColor = glowColor;
-        ctx!.shadowBlur = glowBlur;
-        for (let p = 0; p < glowPasses; p++) ctx!.stroke();
-        ctx!.shadowBlur = 0;
+        ctx!.globalAlpha = 0.16;
+        ctx!.lineWidth = thickness + glowBlur * 0.7;
+        ctx!.stroke();
+        ctx!.globalAlpha = 0.35;
+        ctx!.lineWidth = thickness + glowBlur * 0.3;
+        ctx!.stroke();
+        ctx!.globalAlpha = 1;
       }
       ctx!.lineWidth = thickness;
       ctx!.strokeStyle = color;
       ctx!.stroke();
-
-      animationRef.current = requestAnimationFrame(draw);
     }
 
+    const io = new IntersectionObserver(([entry]) => (visible = entry.isIntersecting), { rootMargin: "100px" });
+    io.observe(container);
     animationRef.current = requestAnimationFrame(draw);
 
     const ro =
@@ -298,6 +311,7 @@ export default function ElectricBorder({
 
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      io.disconnect();
       ro?.disconnect();
     };
   }, [

@@ -14,7 +14,7 @@ const HANDOVER_LERP = 0.08
 
 const CURSOR_JITTER = 0.01
 const FOV = 40
-const DPR_CAP = 2
+const DPR_CAP = 1.5
 const MAX_POINTS = 65536
 const TAU = Math.PI * 2
 const MAX_COLORS = 5
@@ -755,6 +755,11 @@ export default function CursorRingField(props: CursorRingFieldProps) {
         const ro = new ResizeObserver(resize)
         ro.observe(canvas)
 
+        // Skip the simulation entirely while the field is off screen
+        let visible = false
+        const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), { rootMargin: "100px" })
+        io.observe(canvas)
+
         const pointer = { x: 0, y: 0, over: false }
         const ringPos = { x: 0, y: 0 }
 
@@ -797,6 +802,10 @@ export default function CursorRingField(props: CursorRingFieldProps) {
 
         const frame = (now: number) => {
             raf = requestAnimationFrame(frame)
+            if (!visible || document.hidden) {
+                last = 0
+                return
+            }
             const L = live.current
 
             if (densityDirty.current) {
@@ -921,6 +930,7 @@ export default function CursorRingField(props: CursorRingFieldProps) {
         return () => {
             cancelAnimationFrame(raf)
             ro.disconnect()
+            io.disconnect()
             window.removeEventListener("pointermove", onMove)
             canvas.removeEventListener("pointerleave", onLeave)
             disposeField()

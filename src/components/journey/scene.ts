@@ -43,6 +43,19 @@ const KEYS: [number, [number, number, number], [number, number, number]][] = [
   [1.0, [22, 12, 32], [0, 3, 0]],
 ];
 
+// Adaptive quality: 0 = full, 1 = 1× pixels and no shadows, 2 = also no post-processing
+// (straight to screen) and 0.75× pixels. Steps down while the hero can't hold MIN_FPS, and is remembered for
+// the rest of the visit so later page loads start at the level that worked.
+const MIN_FPS = 40;
+const QUALITY_KEY = "psg-journey-quality";
+function savedQuality() {
+  try {
+    return Math.min(2, Math.max(0, Number(sessionStorage.getItem(QUALITY_KEY)) || 0));
+  } catch {
+    return 0;
+  }
+}
+
 export type Journey = {
   setProgress: (p: number) => void;
   setPaused: (paused: boolean) => void;
@@ -105,7 +118,8 @@ function skyMaterial() {
 
 export function createJourney(canvas: HTMLCanvasElement, opts: { mobile: boolean }): Journey {
   const { mobile } = opts;
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile, powerPreference: "high-performance" });
+  // Antialiasing can't be switched later, so it's only on when this visit hasn't had to step quality down
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile && savedQuality() === 0, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.5));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
@@ -312,6 +326,18 @@ export function createJourney(canvas: HTMLCanvasElement, opts: { mobile: boolean
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
 
+  let quality = savedQuality();
+  function applyQuality() {
+    const full = Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.5);
+    const ratio = [full, Math.min(full, 1), Math.min(full, 0.75)][quality];
+    renderer.setPixelRatio(ratio);
+    composer.setPixelRatio(ratio);
+    sun.castShadow = !mobile && quality === 0;
+    resize();
+  }
+  // Without bloom the composer's offscreen target and output copy are pure overhead
+  const draw = () => (quality < 2 ? composer.render() : renderer.render(scene, camera));
+
   // ---------- camera route ----------
   const posCurve = new THREE.CatmullRomCurve3(KEYS.map((k) => new THREE.Vector3(...k[1])), false, "centripetal");
   const tgtCurve = new THREE.CatmullRomCurve3(KEYS.map((k) => new THREE.Vector3(...k[2])), false, "centripetal");
@@ -428,15 +454,46 @@ export function createJourney(canvas: HTMLCanvasElement, opts: { mobile: boolean
     camera.updateProjectionMatrix();
   }
 
+  // Frame-rate sampling for adaptive quality; restarts whenever the hero comes back into view
+  let warmup = 1;
+  let sampleFrames = 0;
+  let sampleTime = 0;
+
   function frame(now: number) {
     raf = requestAnimationFrame(frame);
-    const dt = Math.min(0.05, (now - last) / 1000);
+    const raw = (now - last) / 1000;
+    const dt = Math.min(0.05, raw);
     last = now;
-    if (paused || !visible) return;
+    if (paused || !visible || document.hidden) {
+      warmup = 1;
+      sampleFrames = sampleTime = 0;
+      return;
+    }
+    if (quality < 2) {
+      if (warmup > 0) {
+        warmup -= raw;
+      } else {
+        sampleFrames++;
+        sampleTime += raw;
+        if (sampleTime >= 1.5) {
+          if (sampleFrames / sampleTime < MIN_FPS) {
+            quality++;
+            try {
+              sessionStorage.setItem(QUALITY_KEY, String(quality));
+            } catch {
+              // storage blocked: the level just isn't remembered
+            }
+            applyQuality();
+            warmup = 1;
+          }
+          sampleFrames = sampleTime = 0;
+        }
+      }
+    }
     time += dt;
     current += (target - current) * Math.min(1, dt * 3.5);
     apply(current, dt);
-    composer.render();
+    draw();
   }
 
   function resize() {
@@ -451,7 +508,7 @@ export function createJourney(canvas: HTMLCanvasElement, opts: { mobile: boolean
 
   const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting));
   io.observe(canvas);
-  resize();
+  applyQuality();
   raf = requestAnimationFrame(frame);
 
   return {
@@ -462,7 +519,7 @@ export function createJourney(canvas: HTMLCanvasElement, opts: { mobile: boolean
       current = target = p;
       fanSpeed = 0;
       apply(p, 0);
-      composer.render();
+      draw();
     },
     resize,
     dispose: () => {

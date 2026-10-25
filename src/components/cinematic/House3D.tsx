@@ -121,7 +121,7 @@ export default function House3D({ circuits, still }: { circuits: HouseCircuits; 
 
   return (
     <div ref={box} className="size-full">
-      <Canvas frameloop={visible ? "always" : "never"} dpr={[1, 1.5]} camera={{ position: [10, 8.5, 17], fov: 34 }} gl={{ antialias: true }}>
+      <Canvas frameloop={visible ? "always" : "never"} dpr={1} camera={{ position: [10, 8.5, 17], fov: 34 }} gl={{ antialias: true }}>
         <ambientLight intensity={0.35} />
         <directionalLight position={[-8, 12, 10]} intensity={0.9} color="#9db4ff" />
         <Environment resolution={128}>
@@ -129,7 +129,8 @@ export default function House3D({ circuits, still }: { circuits: HouseCircuits; 
           <Lightformer form="rect" intensity={1} position={[-8, 3, -2]} scale={[4, 4, 1]} color="#5b8cff" />
         </Environment>
         <Home circuits={circuits} />
-        <ContactShadows position={[0, -0.3, 0]} opacity={0.6} scale={22} blur={2.6} far={8} color="#000" />
+        {/* Nothing on the ground moves (only the camera does), so the shadow is baked once */}
+        <ContactShadows frames={1} position={[0, -0.3, 0]} opacity={0.6} scale={22} blur={2.6} far={8} color="#000" />
         <Orbit still={still} />
       </Canvas>
     </div>
